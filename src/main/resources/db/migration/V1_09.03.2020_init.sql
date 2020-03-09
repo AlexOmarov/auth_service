@@ -5,7 +5,7 @@
 -- Model Author: Alex
 
 -- object: auth_service | type: ROLE --
--- DROP ROLE IF EXISTS auth_service;
+DROP ROLE IF EXISTS auth_service;
 CREATE ROLE auth_service WITH
     INHERIT
     LOGIN
@@ -22,7 +22,7 @@ CREATE ROLE auth_service WITH
 --
 
 -- object: auth_service | type: SCHEMA --
--- DROP SCHEMA IF EXISTS auth_service CASCADE;
+DROP SCHEMA IF EXISTS auth_service CASCADE;
 CREATE SCHEMA auth_service;
 -- ddl-end --
 ALTER SCHEMA auth_service OWNER TO auth_service;
