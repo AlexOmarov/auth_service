@@ -28,7 +28,6 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot.experimental:spring-boot-starter-data-r2dbc")
-    implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
     implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-rsocket")
     implementation("org.springframework.boot:spring-boot-starter-security")
@@ -40,7 +39,8 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.springframework.security:spring-security-messaging")
     implementation("org.springframework.security:spring-security-rsocket")
-    implementation("org.springframework.session:spring-session-data-redis")
+    //implementation("org.springframework.session:spring-session-data-redis")
+    //implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")

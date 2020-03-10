@@ -1,9 +1,12 @@
 package ru.somarov.auth_service.backend.security
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.security.core.userdetails.MapReactiveUserDetailsService
+import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.security.core.userdetails.UserDetailsService
 import org.springframework.security.crypto.password.PasswordEncoder
+import reactor.core.publisher.Mono
 import ru.somarov.auth_service.backend.security.GrantedAuthorityImpl
 import ru.somarov.auth_service.backend.security.UserDetailsImpl
 
@@ -17,7 +20,7 @@ import ru.somarov.auth_service.backend.security.UserDetailsImpl
  *  @version 1.0.0
  *  @since 1.0.0
  */
-class UserDetailsServiceImpl: UserDetailsService {
+class UserDetailsServiceImpl: ReactiveUserDetailsService {
 
 
     @Autowired
@@ -41,16 +44,16 @@ class UserDetailsServiceImpl: UserDetailsService {
 */
 
 
+
     /**
      * Получение аутентифицированного пользователя
      * @param email email пользователя
      * @return UserDetailsImpl с заполненными данными пользователя
      * @throws UsernameNotFoundException Пользователь не найден
      */
-    override fun loadUserByUsername(username: String?): UserDetails {
-
-        return UserDetailsImpl("","","",
+    override fun findByUsername(username: String?): Mono<UserDetails> {
+        return Mono.just(UserDetailsImpl("","","",
                 false,false,false,
-                false, mutableListOf(GrantedAuthorityImpl("")))
+                false, mutableListOf(GrantedAuthorityImpl(""))))
     }
 }
