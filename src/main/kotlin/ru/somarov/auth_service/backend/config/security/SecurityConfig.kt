@@ -42,7 +42,9 @@ class SecurityConfig/*: WebSecurityConfigurerAdapter()*/ {
     @Bean
     fun securityWebFilterChain(
             http: ServerHttpSecurity): SecurityWebFilterChain {
-        return http.authorizeExchange()
+        return http
+                .csrf().disable()
+                .authorizeExchange()
                 .pathMatchers("/",
                         "/blob/**",
                         "/css/**",
@@ -56,9 +58,7 @@ class SecurityConfig/*: WebSecurityConfigurerAdapter()*/ {
                 .pathMatchers("/profile/**", "/orders", "/order", "/add/**", "/account").authenticated()
                 .pathMatchers("/admin/**", "/manage/**", "/rest/**").hasAuthority("ADMIN")
                 .and()
-                .formLogin()
-                .loginPage("/login")
-                .and()
+                .formLogin().disable()
                 .logout()
                 .logoutUrl("/perform_logout")
                 /*.and()
