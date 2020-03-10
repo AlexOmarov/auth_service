@@ -5,11 +5,11 @@
 -- Model Author: Alex
 
 -- object: auth_service | type: ROLE --
-DROP ROLE IF EXISTS auth_service;
-CREATE ROLE auth_service WITH
-    INHERIT
-    LOGIN
-    ENCRYPTED PASSWORD 'auth_service';
+-- DROP ROLE IF EXISTS auth_service;
+-- CREATE ROLE auth_service WITH
+   -- INHERIT
+   -- LOGIN
+   -- ENCRYPTED PASSWORD 'auth_service';
 -- ddl-end --
 
 
