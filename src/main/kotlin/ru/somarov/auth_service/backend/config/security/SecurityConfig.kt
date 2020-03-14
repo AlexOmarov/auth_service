@@ -20,58 +20,37 @@ import ru.somarov.auth_service.backend.security.UserDetailsServiceImpl
  *  @version 1.0.0
  *  @since 1.0.0
  */
-
-@Configuration
-@EnableWebFluxSecurity
 /*@EnableReactiveMethodSecurity*/
-class SecurityConfig/*: WebSecurityConfigurerAdapter()*/ {
+@EnableWebFluxSecurity
+class SecurityConfig {
 
     /**
      * Инициализируем @Bean для кодирования паролей пользователей
      * Кодировка используется при записи паролей в базу
      * @return BCryptPasswordEncoder - кодировщик, использующий алгоритм BCrypt.
      */
-    @Bean
+/*    @Bean
     fun passwordEncoder(): PasswordEncoder {
         return BCryptPasswordEncoder()
-    }
+    }*/
 
     /**
      * Определение параметров конфигурации Security
      */
     @Bean
-    fun securityWebFilterChain(
-            http: ServerHttpSecurity): SecurityWebFilterChain {
-        return http
-                .csrf().disable()
-                .authorizeExchange()
-                .pathMatchers("/",
-                        "/blob/**",
-                        "/css/**",
-                        "/resources/**",
-                        "/images/**",
-                        "/img/**",
-                        "/rest/**",
-                        "/favicon.ico",
-                        "/js/**"
-                ).permitAll()
-                .pathMatchers("/profile/**", "/orders", "/order", "/add/**", "/account").authenticated()
-                .pathMatchers("/admin/**", "/manage/**", "/rest/**").hasAuthority("ADMIN")
+    fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+        http.authorizeExchange()
+                .anyExchange()
+                .authenticated()
                 .and()
-                .formLogin().disable()
-                .logout()
-                .logoutUrl("/perform_logout")
-                /*.and()
-                .csrf()
-                .csrfTokenRepository(ServerCsrfTokenRepository())*/
-                .and().build()
+                .httpBasic()
+                .and()
+                .formLogin()
+                .and().csrf().disable()
+        return http.build()
     }
 
 
-/*    @Bean
-    fun httpSessionEventPublisher(): HttpSessionEventPublisher {
-        return HttpSessionEventPublisher()
-    }*/
 
 
     /**

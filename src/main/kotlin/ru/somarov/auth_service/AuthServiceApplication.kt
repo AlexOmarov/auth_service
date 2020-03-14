@@ -6,8 +6,9 @@ import org.springframework.web.reactive.config.EnableWebFlux
 import ru.somarov.auth_service.backend.config.flyway.FlywayConfig
 
 
-@EnableWebFlux
+
 @SpringBootApplication
+@EnableWebFlux
 class AuthServiceApplication
 
 fun main(args: Array<String>) {

@@ -22,10 +22,12 @@ import ru.somarov.auth_service.backend.security.UserDetailsImpl
  */
 class UserDetailsServiceImpl: ReactiveUserDetailsService {
 
+/*
 
     @Autowired
     lateinit var passwordEncoder: PasswordEncoder
 
+*/
 
     /**
      * Регистрация новых пользователей

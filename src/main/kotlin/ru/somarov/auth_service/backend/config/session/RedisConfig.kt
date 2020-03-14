@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Configuration
 
 
 
-@Configuration
+//@Configuration
 //@EnableRedisWebSession
 class RedisConfig {
 
