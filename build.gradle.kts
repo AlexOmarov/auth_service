@@ -39,7 +39,7 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     implementation("org.springframework.security:spring-security-messaging")
     implementation("org.springframework.security:spring-security-rsocket")
-    //implementation("org.springframework.session:spring-session-data-redis")
+    implementation("org.springframework.session:spring-session-data-redis")
     //implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 
     compileOnly("org.projectlombok:lombok")

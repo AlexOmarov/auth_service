@@ -43,10 +43,7 @@ class SecurityConfig {
                 .anyExchange()
                 .authenticated()
                 .and()
-                .httpBasic()
-                .and()
                 .formLogin()
-                .and().csrf().disable()
         return http.build()
     }
 
