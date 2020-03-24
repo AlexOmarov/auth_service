@@ -1,14 +1,18 @@
 package ru.somarov.auth_service.backend.security
 
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.security.core.userdetails.MapReactiveUserDetailsService
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
+
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.core.userdetails.UsernameNotFoundException
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
-import ru.somarov.auth_service.backend.security.GrantedAuthorityImpl
-import ru.somarov.auth_service.backend.security.UserDetailsImpl
+import ru.somarov.auth_service.backend.db.entity.Role
+import ru.somarov.auth_service.backend.db.entity.UserAccount
+import ru.somarov.auth_service.backend.db.repository.UserAccountRepo
+import java.util.*
+
 
 /**
  *  Имплементация {@link UserDetailsService UserDetailsService} - класс, представляющий собой
@@ -20,14 +24,16 @@ import ru.somarov.auth_service.backend.security.UserDetailsImpl
  *  @version 1.0.0
  *  @since 1.0.0
  */
-class UserDetailsServiceImpl: ReactiveUserDetailsService {
+@Service
+class UserDetailsServiceImpl : ReactiveUserDetailsService {
 
-/*
+
+    @Autowired
+    private lateinit var userAccountRepo: UserAccountRepo
 
     @Autowired
     lateinit var passwordEncoder: PasswordEncoder
 
-*/
 
     /**
      * Регистрация новых пользователей
@@ -37,25 +43,32 @@ class UserDetailsServiceImpl: ReactiveUserDetailsService {
      * @param name ник нового пользователя
      * @return новый пользователь из базы
      */
-/*
-    fun registerUser: User(val email: String, val password: String, val role: Role, val name: String) {
-        return userRepo.save(
-                new User(email,passwordEncoder.encode(password),role, name)
-        );
-    }
-*/
 
+    fun registerUser(email: String,
+                     password: String,
+                     role: Role,
+                     name: String): Mono<UserAccount> {
+        return userAccountRepo.save(
+                UserAccount(uuid = UUID(12L, 12L),
+                     email = email,
+                     password = passwordEncoder.encode(password),
+                     accountNonExpired = true,
+                     accountNonLocked = true)
+        )
+    }
 
 
     /**
+     *
      * Получение аутентифицированного пользователя
-     * @param email email пользователя
-     * @return UserDetailsImpl с заполненными данными пользователя
+     * @param username email пользователя
+     * @ return UserDetailsImpl с заполненными данными пользователя
      * @throws UsernameNotFoundException Пользователь не найден
      */
+
     override fun findByUsername(username: String?): Mono<UserDetails> {
-        return Mono.just(UserDetailsImpl("","","",
-                false,false,false,
+        return Mono.just(UserDetailsImpl("decentboat@gmail.com", "111", "",
+                false, false, false,
                 false, mutableListOf(GrantedAuthorityImpl(""))))
     }
 }

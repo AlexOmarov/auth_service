@@ -1,6 +1,8 @@
+
 package ru.somarov.auth_service.backend.security
 
 import org.springframework.security.core.GrantedAuthority
+
 
 /**
  *  Имплементация интерфейса {@link GrantedAuthority GrantedAuthority} Spring Security для определения
@@ -11,6 +13,7 @@ import org.springframework.security.core.GrantedAuthority
  *  @version 1.0.0
  *  @since 1.0.0
  */
+
 class GrantedAuthorityImpl(private val authority: String): GrantedAuthority {
     override fun getAuthority(): String {
         return authority

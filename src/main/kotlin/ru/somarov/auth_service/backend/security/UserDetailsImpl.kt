@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
 
+
 /**
  * Имплементация {@link UserDetails UserDetails} - класс, несущий в себе информацию о пользователе.
  * При аутентификации экземплярс данными пользователя доступен из контекста.
@@ -13,6 +14,7 @@ import java.util.*
  *  @version 1.0.0
  *  @since 1.0.0
  */
+
 class UserDetailsImpl(private val email: String,
                       private val password: String,
                       private val name: String? = null,
