@@ -14,5 +14,6 @@ data class UserAccount(
         var credentialsNonExpired: Boolean? = false,
         var enabled: Boolean? = null,
         var phone: String? = null
+
 )
 

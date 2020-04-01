@@ -22,8 +22,8 @@ import ru.somarov.auth_service.backend.security.UserDetailsServiceImpl
  */
 
 
-/*@EnableReactiveMethodSecurity
-@EnableWebFluxSecurity*/
+@EnableReactiveMethodSecurity
+@EnableWebFluxSecurity
 @Configuration
 class SecurityConfig {
 
@@ -45,7 +45,7 @@ class SecurityConfig {
     fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
         http.csrf().disable().authorizeExchange()
                 .anyExchange()
-                .authenticated()
+                .permitAll()
                 .and()
                 .formLogin()
         return http.build()

@@ -67,8 +67,8 @@ class UserDetailsServiceImpl : ReactiveUserDetailsService {
      */
 
     override fun findByUsername(username: String?): Mono<UserDetails> {
-        return Mono.just(UserDetailsImpl("decentboat@gmail.com", "111", "",
-                false, false, false,
-                false, mutableListOf(GrantedAuthorityImpl(""))))
+        return Mono.just(UserDetailsImpl("asd", "111", "",
+                accountNonExpired = true, accountNonLocked = true, credentialsNonExpired = true,
+                enabled = true, authorities = mutableListOf(GrantedAuthorityImpl(""))))
     }
 }

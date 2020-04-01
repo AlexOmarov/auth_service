@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Configuration
 /*@EnableRedisWebSession*/
 class RedisConfig {
 
+
+
     /*@Bean*/
 /*   fun redisConnectionFactory(): LettuceConnectionFactory {
         return LettuceConnectionFactory()

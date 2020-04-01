@@ -28,6 +28,7 @@ class UserDetailsImpl(private val email: String,
         return authorities
     }
 
+
     override fun isEnabled(): Boolean {
         return enabled
     }

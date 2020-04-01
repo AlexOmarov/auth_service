@@ -10,5 +10,6 @@ data class UserRole(
 ) {
     @Id
     var id: Int? = null
+
 }
 

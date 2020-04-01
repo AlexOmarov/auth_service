@@ -34,15 +34,18 @@ class HomeController {
 
 
 
+/*
 
     @PostConstruct
     fun init() {
         roleRepo.findById(1).block()?.let {
-            val user = userDetailsServiceImpl.registerUser("decentboat@gmail.com",
-                    "11111", it, name = "Test_adm_2")
-            user.block()?.uuid?.let { it1 -> println(userAccountRepo.findById(it1)) }
+            userDetailsServiceImpl.registerUser("decentboat@gmail.com",
+                    "11111", it, name = "Test_adm_2").block()?.uuid?.let {
+                it1 -> println(userAccountRepo.findById(it1))
+            }
         }
     }
+*/
 
 
 
