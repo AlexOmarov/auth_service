@@ -43,22 +43,17 @@ function start_unit_tests() {
 
   local packages=($(get_packages "$changed_files"))
 
-  # Forming a parameter string for "gradlew :test" command
-  tests_filter=$(for i in ${packages[@]}; do echo --tests "\"$i\""; done | sort -u)
+  if [ ${#packages[@]} -ne 0 ]; then
+    # Forming a parameter string for "gradlew :test" command
+    local tests_filter=$(for i in ${packages[@]}; do echo --tests "\"$i\""; done | sort -u)
 
-  if [ ${#tests_filter[@]} -ne 0 ]; then
+    # Logging
+    printf "Starting unit tests in the following list of packages:\n"
+  	for i in "${tests_filter[@]}"; do echo  "${i//--tests /}"; done
 
-      # Logging
-      printf "Starting unit tests in the following list of packages:\n"
-  	  for i in "${tests_filter[@]}"; do echo  "${i//--tests /}"; done
-
-  	  # Running gradle test task with following filters
-      ./gradlew :test $tests_filter
+  	# Running gradle test task with following filters
+    ./gradlew :test $tests_filter
   fi
-
-
-
-
 }
 
 #Calling the main function
