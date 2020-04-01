@@ -69,6 +69,8 @@ function start_unit_tests() {
 
   	# Running gradle test task with following filters
     ./gradlew :test $tests_filter
+    else
+    echo "There are no tests for changed files"
   fi
 }
 
