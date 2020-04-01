@@ -28,6 +28,7 @@ import ru.somarov.auth_service.backend.security.UserDetailsServiceImpl
 class SecurityConfig {
 
 
+
     /**
      * Инициализируем @Bean для кодирования паролей пользователей
      * Кодировка используется при записи паролей в базу

@@ -9,7 +9,13 @@ function get_packages() {
   for file in ${files[@]}; do
 
     if [[ $file =~ \.java$ ]] || [[ $file =~ \.groovy$ ]] || [[ $file =~ \.kt$ ]]; then
-        package=$(echo "$file" | sed -e 's/src\/main\/java\///g' \
+         file_path=$(echo "$file" | sed -e 's/.\w*.java$///g' \
+                                  | sed -e 's/.\w*.kt$///g' \
+                                  | sed -e 's/.\w*.groovy$///g')
+
+        tests_files=$(git ls-tree --name-only -r HEAD $file_path)
+        if [ ${#tests_files[@]} -ne 0 ]; then
+           package=$(echo "$file" | sed -e 's/src\/main\/java\///g' \
                                | sed -e 's/src\/main\/kotlin\///g' \
                                | sed -e 's/src\/test\/groovy\///g' \
                                | sed -e 's/src\/test\/kotlin\///g' \
@@ -18,6 +24,7 @@ function get_packages() {
                                | sed -e 's/.\w*.kt$/.*/g' \
                                | sed -e 's/.\w*.groovy$/.*/g')
         echo $package
+        fi
     fi
 
   done
@@ -50,15 +57,8 @@ function start_unit_tests() {
   # Getting files which have been changed in the last commit from current branch
   changed_files=$(git diff-tree --no-commit-id --name-only -r HEAD)
 
-  # Getting test files existed in last commit from current branch
-  tests_files=$(git ls-tree --name-only -r HEAD src/test/)
-
-  # Getting packages from classes paths
-  local changed_packages=($(get_packages "$changed_files"))
-  local tests_packages=($(get_packages "$tests_files"))
-
   # Getting packages with test which will be launched
-  local packages_to_run=($(get_packages_to_run "$tests_packages" "$changed_packages"))
+  local packages_to_run=($(get_packages "$changed_files"))
 
   # Forming a parameter string for "gradlew :test" command
   tests_filter=$(for i in ${packages_to_run[@]}; do echo --tests "\"$i\""; done | sort -u)
