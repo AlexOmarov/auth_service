@@ -20,7 +20,7 @@ function get_packages() {
 
         test_packages=($(get_test_package "$package"))
 
-        if [ ${#test_packages[@]} -ne 0 ]; then
+        if [ ${#test_packages[@]} -ne 1 ]; then
            formatted_package=$(echo "$file" | sed -e 's/src\/main\/java\///g' \
                               | sed -e 's/src\/main\/kotlin\///g' \
                               | sed -e 's/src\/test\/groovy\///g' \
@@ -40,7 +40,7 @@ function get_packages() {
 function get_test_package() {
   package="$1"
   local tests_files=($(git ls-tree --name-only -r HEAD "src/test/kotlin$package" "src/test/groovy$package" "src/test/java$package"))
-  if [ ${#tests_files[@]} -ne 0 ]; then
+  if [ ${#tests_files[@]} -ne 1 ]; then
     for file in ${tests_files[@]}; do
       echo $file
     done
@@ -80,7 +80,7 @@ function start_unit_tests() {
   # Forming a parameter string for "gradlew :test" command
   tests_filter=$(for i in ${packages_to_run[@]}; do echo --tests "\"$i\""; done | sort -u)
 
-  if [ ${#tests_filter[@]} -ne 0 ]; then
+  if [ ${#tests_filter[@]} -ne 1 ]; then
 
       # Logging
       printf "Starting unit tests in the following list of packages:\n"
