@@ -3,34 +3,43 @@
 # Passing test/changed classes with it's path
 # to get appropriate packages names
 function get_packages() {
+
   files="$1"
+
   for file in ${files[@]}; do
+
     if [[ $file =~ \.java$ ]] || [[ $file =~ \.groovy$ ]] || [[ $file =~ \.kt$ ]]; then
         package=$(echo "$file" | sed -e 's/src\/main\/java\///g' \
-                             | sed -e 's/src\/main\/kotlin\///g' \
-                             | sed -e 's/src\/test\/groovy\///g' \
-                             | sed -e 's/src\/test\/kotlin\///g' \
-                             | sed -e 's/\//./g' \
-                             | sed -e 's/.\w*.java$/.*/g' \
-                             | sed -e 's/.\w*.kt$/.*/g' \
-                             | sed -e 's/.\w*.groovy$/.*/g')
+                               | sed -e 's/src\/main\/kotlin\///g' \
+                               | sed -e 's/src\/test\/groovy\///g' \
+                               | sed -e 's/src\/test\/kotlin\///g' \
+                               | sed -e 's/\//./g' \
+                               | sed -e 's/.\w*.java$/.*/g' \
+                               | sed -e 's/.\w*.kt$/.*/g' \
+                               | sed -e 's/.\w*.groovy$/.*/g')
         echo $package
     fi
+
   done
 }
 
 # Passing packages with tests and packages with changed files
 # to get test packages that will be run
 function get_packages_to_run() {
+
   tests_packages="$1"
   changed_packages="$2"
+
   local packages_to_run=()
+
    for test_package in ${tests_packages[@]}; do
      for changed_package in ${changed_packages[@]}; do
+
         if [[ $changed_package == "$test_package" ]]; then
           echo $changed_package
           break
         fi
+
      done
    done
 }
@@ -38,31 +47,31 @@ function get_packages_to_run() {
 # Main function
 function start_unit_tests() {
 
-# Getting files which have been changed in the last commit from current branch
-changed_files=$(git diff-tree --no-commit-id --name-only -r HEAD)
+  # Getting files which have been changed in the last commit from current branch
+  changed_files=$(git diff-tree --no-commit-id --name-only -r HEAD)
 
-# Getting test files existed in last commit from current branch
-tests_files=$(git ls-tree --name-only -r HEAD src/test/)
+  # Getting test files existed in last commit from current branch
+  tests_files=$(git ls-tree --name-only -r HEAD src/test/)
 
-# Getting packages from classes paths
-local changed_packages=($(get_packages "$changed_files"))
-local tests_packages=($(get_packages "$tests_files"))
+  # Getting packages from classes paths
+  local changed_packages=($(get_packages "$changed_files"))
+  local tests_packages=($(get_packages "$tests_files"))
 
-# Getting packages with test which will be launched
-local packages_to_run=($(get_packages_to_run "$tests_packages" "$changed_packages"))
+  # Getting packages with test which will be launched
+  local packages_to_run=($(get_packages_to_run "$tests_packages" "$changed_packages"))
 
-# Forming a parameter string for "gradlew :test" command
-tests_filter=$(for i in ${packages_to_run[@]}; do echo --tests "\"$i\""; done | sort -u)
+  # Forming a parameter string for "gradlew :test" command
+  tests_filter=$(for i in ${packages_to_run[@]}; do echo --tests "\"$i\""; done | sort -u)
 
-if [ ${#tests_filter[@]} -ne 0 ]; then
+  if [ ${#tests_filter[@]} -ne 0 ]; then
 
-    # Logging
-    printf "Starting unit tests in the following list of packages:\n"
-	  for i in "${tests_filter[@]}"; do echo  "${i//--tests /}"; done
+      # Logging
+      printf "Starting unit tests in the following list of packages:\n"
+  	  for i in "${tests_filter[@]}"; do echo  "${i//--tests /}"; done
 
-	  # Running gradle test task with following filters
-    ./gradlew :test $tests_filter
-fi
+  	  # Running gradle test task with following filters
+      ./gradlew :test $tests_filter
+  fi
 }
 
 #Calling the main function
