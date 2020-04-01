@@ -2,7 +2,7 @@
 
 # Passing test/changed classes with it's path
 # to formatted packages with appropriate tests
-function get_packages() {
+function get_test_packages_to_run() {
 
   files="$1"
 
@@ -13,11 +13,11 @@ function get_packages() {
         # Get package of the file
         package=$(get_package "$file")
         # Get tests in the same packages
-        local tests_files=($(git ls-tree --name-only -r HEAD src/test/kotlin$package src/test/groovy$package src/test/java$package))
+        local tests_files=($(git ls-tree --name-only -r HEAD src/test/kotlin/$package src/test/groovy/$package src/test/java/$package))
         # If tests exist in the same package
         if [ ${#tests_files[@]} -ne 0 ]; then
            # Return formatted package of file
-           get_formatted_package "$file"
+           format_package "$package"
         fi
 
     fi
@@ -25,28 +25,24 @@ function get_packages() {
 }
 
 # Get package of the file
-function get_package() {
+function get_file_package() {
   file="$1"
-  echo "$file" | sed -e 's/src\/main\/java\//\//g' \
-               | sed -e 's/src\/main\/kotlin\//\//g' \
-               | sed -e 's/src\/test\/groovy\//\//g' \
-               | sed -e 's/src\/test\/kotlin\//\//g' \
+  #TODO: Если файл в пакете plugins/api,
+  #TODO: тогда искать корневую папку плагина, в котором этот файл находится
+  echo "$file" | sed -e 's/src\/main\/java\///g' \
+               | sed -e 's/src\/main\/kotlin\///g' \
+               | sed -e 's/src\/test\/groovy\///g' \
+               | sed -e 's/src\/test\/kotlin\///g' \
                | sed -e 's/.\w*.java$/\//g' \
                | sed -e 's/.\w*.kt$/\//g' \
                | sed -e 's/.\w*.groovy$/\//g'
 }
 
 # Format package as gradlew parameter
-function get_formatted_package() {
+function format_package() {
   file="$1"
-  echo "$file" | sed -e 's/src\/main\/java\///g' \
-               | sed -e 's/src\/main\/kotlin\///g' \
-               | sed -e 's/src\/test\/groovy\///g' \
-               | sed -e 's/src\/test\/kotlin\///g' \
-               | sed -e 's/\//./g' \
-               | sed -e 's/.\w*.java$/.*/g' \
-               | sed -e 's/.\w*.kt$/.*/g' \
-               | sed -e 's/.\w*.groovy$/.*/g'
+  echo "$file" | sed -e 's/\//./g' \
+               | sed -e 's/.\w*.$/.*/g'
 
 }
 
@@ -57,11 +53,11 @@ function start_unit_tests() {
   local changed_files=$(git diff-tree --no-commit-id --name-only -r HEAD)
 
   # Getting formatted packages which have tests for launch
-  local formatted_packages=($(get_packages "$changed_files"))
+  local test_packages_to_run=($(get_test_packages_to_run "$changed_files"))
 
-  if [ ${#formatted_packages[@]} -ne 0 ]; then
+  if [ ${#test_packages_to_run[@]} -ne 0 ]; then
     # Forming a parameter string for "gradlew :test" command
-    local tests_filter=$(for i in ${formatted_packages[@]}; do echo --tests "\"$i\""; done | sort -u)
+    local tests_filter=$(for i in ${test_packages_to_run[@]}; do echo --tests "\"$i\""; done | sort -u)
 
     # Logging
     printf "Starting unit tests in the following list of packages:\n"
