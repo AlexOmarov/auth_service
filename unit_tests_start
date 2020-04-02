@@ -71,6 +71,7 @@ function start_unit_tests() {
   	for i in "${tests_filter[@]}"; do echo  "${i//--tests /}"; done
 
   	# Running gradle test task with following filters
+    #./gradlew :test $tests_filter
     ./gradlew :test $tests_filter
     else
     echo "There are no tests for changed files"
