@@ -27,22 +27,13 @@ function get_test_packages_to_run() {
 # Get package of the file
 function get_package() {
   file="$1"
-  if [[ $file =~ com\/fxclub\/fxbank\/plugins\/ ]] || [[ $file =~ com\/fxclub\/fxbank\/api\/v3 ]]; then
-    echo "$file" | sed -e 's/src\/main\/java\///g' \
-                 | sed -e 's/src\/main\/kotlin\///g' \
-                 | sed -e 's/src\/test\/groovy\///g' \
-                 | sed -e 's/src\/test\/kotlin\///g' \
-                 | sed -e 's/(com\/fxclub\/fxbank\/api\/v3\/\w*\/).*/\1\//g' \
-                 | sed -e 's/(com\/fxclub\/fxbank\/plugins\/\w*\/).*/\1\//g'
-  else
-     echo "$file" | sed -e 's/src\/main\/java\///g' \
-                | sed -e 's/src\/main\/kotlin\///g' \
-                | sed -e 's/src\/test\/groovy\///g' \
-                | sed -e 's/src\/test\/kotlin\///g' \
-                | sed -e 's/.\w*.java$/\//g' \
-                | sed -e 's/.\w*.kt$/\//g' \
-                | sed -e 's/.\w*.groovy$/\//g'
-  fi
+  echo "$file" | sed -e 's/src\/main\/java\///g' \
+               | sed -e 's/src\/main\/kotlin\///g' \
+               | sed -e 's/src\/test\/groovy\///g' \
+               | sed -e 's/src\/test\/kotlin\///g' \
+               | sed -e 's/.\w*.java$/\//g' \
+               | sed -e 's/.\w*.kt$/\//g' \
+               | sed -e 's/.\w*.groovy$/\//g'
 }
 
 # Format package as gradlew parameter
@@ -64,7 +55,7 @@ function start_unit_tests() {
 
   if [ ${#test_packages_to_run[@]} -ne 0 ]; then
     # Forming a parameter string for "gradlew :test" command
-    local tests_filter=$(for i in ${test_packages_to_run[@]}; do echo --tests "\"$i\""; done | sort -u)
+    local tests_filter=$(for i in ${test_packages_to_run[@]}; do echo --tests "$i"; done | sort -u)
 
     # Logging
     printf "Starting unit tests in the following list of packages:\n"
@@ -72,7 +63,7 @@ function start_unit_tests() {
 
   	# Running gradle test task with following filters
     #./gradlew :test $tests_filter
-    echo ./gradlew :test "${tests_filter[@]}"
+    sh gradlew :test ${tests_filter}
     else
     echo "There are no tests for changed files"
   fi

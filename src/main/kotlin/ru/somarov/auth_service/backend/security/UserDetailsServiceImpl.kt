@@ -53,7 +53,9 @@ class UserDetailsServiceImpl : ReactiveUserDetailsService {
                      email = email,
                      password = passwordEncoder.encode(password),
                      accountNonExpired = true,
-                     accountNonLocked = true)
+                     accountNonLocked = true,
+                credentialsNonExpired = true,
+                enabled = true)
         )
     }
 

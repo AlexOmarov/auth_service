@@ -53,6 +53,11 @@ class HomeController {
     fun greet(str: Mono<String>): Mono<String> {
         return Mono.just("Response")
     }
+    @GetMapping("/register")
+    fun register(): Mono<UserAccount>? {
+        val role = roleRepo.findById(1)
+        return role.block()?.let { userDetailsServiceImpl.registerUser("decentboat@gmail.com","111", it,"DecentBoat") }
+    }
     @GetMapping("/privilege", produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
     fun getPrivilege(): Flux<Privilege> {
         return privilegeRepo.findAll().delayElements(Duration.ofSeconds(1))

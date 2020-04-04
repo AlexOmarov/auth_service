@@ -52,7 +52,7 @@ dependencies {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
 
-    testImplementation("org.testcontainers:postgresql:1.12.5")
+    testImplementation("org.testcontainers:postgresql:1.13.0")
     testImplementation("org.springframework.boot.experimental:spring-boot-test-autoconfigure-r2dbc")
     testImplementation("io.projectreactor:reactor-test")
     //testImplementation("org.springframework.security:spring-security-test")
