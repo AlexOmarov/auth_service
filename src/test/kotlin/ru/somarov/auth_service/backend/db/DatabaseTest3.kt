@@ -1,52 +1,31 @@
 package ru.somarov.auth_service.backend.db
 
-import org.flywaydb.core.Flyway
-import org.junit.ClassRule
 import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.TestInstance
 import org.junit.runner.RunWith
 import org.slf4j.Logger
-import org.slf4j.LoggerFactory
+import org.slf4j.LoggerFactory.getLogger
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest
-import org.springframework.boot.test.util.TestPropertyValues
-import org.springframework.context.ApplicationContextInitializer
-import org.springframework.context.ConfigurableApplicationContext
-import org.springframework.test.annotation.DirtiesContext
+import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
-import org.testcontainers.containers.PostgreSQLContainer
-import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import reactor.test.StepVerifier
-import ru.somarov.auth_service.backend.PostgresTestContainer
-import ru.somarov.auth_service.backend.config.flyway.FlywayConfig
-import ru.somarov.auth_service.backend.db.entity.Privilege
 import ru.somarov.auth_service.backend.db.repository.PrivilegeRepo
-import java.util.logging.Level
-import java.util.logging.LogManager
 
 
-@DataR2dbcTest
+@SpringBootTest
 @ActiveProfiles(profiles = ["test"])
-@Testcontainers
-@DirtiesContext
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @RunWith(SpringRunner::class)
-class DatabaseTest {
+class DatabaseTest3 {
 
     companion object {
-        private val LOGGER: Logger = LoggerFactory.getLogger(DatabaseTest::class.java)
-        @ClassRule
-        val postgres  = PostgresTestContainer.getInstance()
-    }
+        private val LOGGER:Logger = getLogger(DatabaseTest3::class.java)
 
-    init {
-        if(!postgres.isRunning)
-            postgres.start()
     }
 
     @Autowired
@@ -55,7 +34,7 @@ class DatabaseTest {
     @BeforeAll
     internal fun fillDb() {
         LOGGER.info("BEFORE!!!")
-        //privilegeRepo.saveAll(listOf(Privilege(1,"READ"), Privilege(2, "WRITE"))).blockLast()
+        //privilegeRepo.saveAll(listOf(Privilege(1, "READ"), Privilege(2, "WRITE"))).blockLast()
     }
 
     @AfterAll
@@ -66,6 +45,7 @@ class DatabaseTest {
 
     @Test
     fun `When calling findAll get all`() {
+        Thread.sleep(20000)
         StepVerifier.create(privilegeRepo.findAll())
                 .expectSubscription()
                 .expectNextCount(0)

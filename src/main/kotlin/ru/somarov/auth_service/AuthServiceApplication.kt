@@ -12,7 +12,6 @@ import ru.somarov.auth_service.backend.config.flyway.FlywayConfig
 class AuthServiceApplication
 
 fun main(args: Array<String>) {
-    FlywayConfig().flyway().migrate()
     runApplication<AuthServiceApplication>(*args)
 }
 

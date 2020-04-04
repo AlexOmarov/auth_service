@@ -46,8 +46,6 @@ class SecurityConfig {
         http.csrf().disable().authorizeExchange()
                 .anyExchange()
                 .permitAll()
-                .and()
-                .formLogin()
         return http.build()
     }
 }

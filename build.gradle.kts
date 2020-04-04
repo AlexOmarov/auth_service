@@ -42,17 +42,22 @@ dependencies {
     //implementation("org.springframework.session:spring-session-data-redis")
     //implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 
+    runtimeOnly("io.r2dbc:r2dbc-postgresql")
+    runtimeOnly("org.postgresql:postgresql")
+
     compileOnly("org.projectlombok:lombok")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
-    runtimeOnly("io.r2dbc:r2dbc-postgresql")
-    implementation("org.postgresql:postgresql")
+
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
     annotationProcessor("org.projectlombok:lombok")
+
     testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude(group = "org.junit.vintage", module = "junit-vintage-engine")
     }
-
+    testImplementation("org.testcontainers:testcontainers:1.13.0")
+    testImplementation("org.testcontainers:junit-jupiter:1.13.0")
     testImplementation("org.testcontainers:postgresql:1.13.0")
+
     testImplementation("org.springframework.boot.experimental:spring-boot-test-autoconfigure-r2dbc")
     testImplementation("io.projectreactor:reactor-test")
     //testImplementation("org.springframework.security:spring-security-test")

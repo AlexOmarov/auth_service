@@ -31,5 +31,5 @@ appender("RollingFile-Appender", RollingFileAppender) {
 appender("Async-Appender", AsyncAppender) {
     appenderRef("RollingFile-Appender")
 }
-logger("guru.springframework.blog.logbackgroovy", INFO, ["Console-Appender", "File-Appender", "Async-Appender"], false)
+logger("ru.somarov.auth_service", INFO, ["Console-Appender", "File-Appender", "Async-Appender"], false)
 root(INFO, ["Console-Appender"])
