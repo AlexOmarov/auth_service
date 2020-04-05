@@ -8,12 +8,14 @@ import org.junit.runner.RunWith
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory.getLogger
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.junit4.SpringRunner
 import org.testcontainers.junit.jupiter.Testcontainers
 import reactor.test.StepVerifier
+import ru.somarov.auth_service.backend.config.listener.startup.StartupApplicationListener
 import ru.somarov.auth_service.backend.db.repository.PrivilegeRepo
 
 
@@ -25,7 +27,6 @@ class DatabaseTest4 {
 
     companion object {
         private val LOGGER:Logger = getLogger(DatabaseTest4::class.java)
-
     }
 
     @Autowired

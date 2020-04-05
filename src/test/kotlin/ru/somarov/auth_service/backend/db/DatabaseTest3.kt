@@ -24,7 +24,6 @@ class DatabaseTest3 {
 
     companion object {
         private val LOGGER:Logger = getLogger(DatabaseTest3::class.java)
-
     }
 
     @Autowired
