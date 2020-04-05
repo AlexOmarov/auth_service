@@ -26,18 +26,13 @@ import ru.somarov.auth_service.testcontainer.PostgresTestContainer
 
 @DataR2dbcTest
 @ActiveProfiles(profiles = ["test"])
-@Testcontainers
-@DirtiesContext
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @RunWith(SpringRunner::class)
-class DatabaseTest: ApplicationContextInitializer<ConfigurableApplicationContext> {
+class DatabaseTest {
 
     companion object {
         private val LOGGER: Logger = LoggerFactory.getLogger(DatabaseTest::class.java)
     }
-
-    @Container
-    val postgres = PostgresTestContainer.getInstance()
 
     @Autowired
     private lateinit var privilegeRepo: PrivilegeRepo
@@ -62,26 +57,5 @@ class DatabaseTest: ApplicationContextInitializer<ConfigurableApplicationContext
                 .expectComplete()
                 .verify()
     }
-
-    override fun initialize(configurableApplicationContext: ConfigurableApplicationContext) {
-            if(!postgres.isRunning) {
-                try {
-                    postgres.start()
-                    FlywayConfig.flyway(postgres.jdbcUrl,postgres.username,postgres.password)
-                    TestPropertyValues.of(
-                            "spring.r2dbc.url=" + postgres.jdbcUrl.replace("jdbc", "r2dbc")
-                    ).applyTo(configurableApplicationContext.environment)
-                } catch (e: Exception) {
-                    print(e)
-                }
-            } else {
-                TestPropertyValues.of(
-                        "spring.r2dbc.url=" + postgres.jdbcUrl.replace("jdbc", "r2dbc")
-                ).applyTo(configurableApplicationContext.environment)
-            }
-        
-
-    }
-
 
 }
