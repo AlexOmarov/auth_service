@@ -17,6 +17,7 @@ import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
+import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
 import org.testcontainers.containers.PostgreSQLContainer
 import org.testcontainers.junit.jupiter.Container
@@ -35,17 +36,31 @@ import java.util.logging.LogManager
 @Testcontainers
 @DirtiesContext
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ContextConfiguration(initializers = [DatabaseTest.Companion.Initializer::class.java])
 @RunWith(SpringRunner::class)
 class DatabaseTest {
 
     companion object {
+
         private val LOGGER: Logger = LoggerFactory.getLogger(DatabaseTest::class.java)
+
         @ClassRule
         val postgres  = PostgresTestContainer.getInstance()
+
+        internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
+            override fun initialize(configurableApplicationContext: ConfigurableApplicationContext) {
+                if(postgres != null) {
+                    TestPropertyValues.of(
+                            "spring.r2dbc.url=" + postgres.jdbcUrl.replace("jdbc", "r2dbc"),
+                            "spring.flyway.url=" + postgres.jdbcUrl
+                    ).applyTo(configurableApplicationContext.environment)
+                }
+            }
+        }
     }
 
     init {
-        if(!postgres.isRunning)
+        if(postgres != null && !postgres.isRunning)
             postgres.start()
     }
 

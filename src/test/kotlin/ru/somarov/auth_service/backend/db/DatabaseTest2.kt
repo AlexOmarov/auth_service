@@ -34,8 +34,8 @@ class DatabaseTest2 {
     }
 
     init {
-        if(!postgres.isRunning)
-            postgres.start()
+        if(DatabaseTest.postgres != null && !DatabaseTest.postgres.isRunning)
+            DatabaseTest.postgres.start()
     }
 
     @Autowired

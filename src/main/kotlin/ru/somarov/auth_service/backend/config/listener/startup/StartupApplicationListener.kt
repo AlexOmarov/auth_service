@@ -15,9 +15,9 @@ import ru.somarov.auth_service.backend.config.flyway.FlywayConfig
  *  @version 1.0.0
  *  @since 1.0.0
  */
-class StartupApplicationListener : ApplicationListener<ContextRefreshedEvent?> {
+class StartupApplicationListener /*: ApplicationListener<ContextRefreshedEvent?>*/ {
 
-    @Value("\${fw.username}")
+/*    @Value("\${fw.username}")
     private var username: String = ""
     @Value("\${fw.password}")
     private var password: String = ""
@@ -30,5 +30,5 @@ class StartupApplicationListener : ApplicationListener<ContextRefreshedEvent?> {
 
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
        FlywayConfig.flyway(url = url,password = password,username = username).migrate()
-    }
+    }*/
 }

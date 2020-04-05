@@ -43,6 +43,7 @@ dependencies {
     //implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 
     runtimeOnly("io.r2dbc:r2dbc-postgresql")
+    runtimeOnly("io.r2dbc:r2dbc-h2")
     runtimeOnly("org.postgresql:postgresql")
 
     compileOnly("org.projectlombok:lombok")
