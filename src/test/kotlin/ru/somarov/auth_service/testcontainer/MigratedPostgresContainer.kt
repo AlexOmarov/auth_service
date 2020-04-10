@@ -1,6 +1,7 @@
 package ru.somarov.auth_service.testcontainer
 
 import org.testcontainers.containers.PostgreSQLContainer
+import ru.somarov.auth_service.backend.config.flyway.FlywayConfig
 
 
 /**
@@ -10,27 +11,28 @@ import org.testcontainers.containers.PostgreSQLContainer
  *  @version 1.0.0
  *  @since 1.0.0
  */
-class PostgresTestContainer: PostgreSQLContainer<PostgresTestContainer>(IMAGE) {
+class MigratedPostgresContainer: PostgreSQLContainer<MigratedPostgresContainer>(IMAGE) {
 
     companion object {
         private var IMAGE: String = "postgres:latest"
-        private var postgresContainer: PostgresTestContainer? = null
+        private var migratedPostgresContainer: MigratedPostgresContainer? = null
 
-        fun getInstance(): PostgresTestContainer {
-            if (postgresContainer == null) {
-                postgresContainer = PostgresTestContainer().apply {
+        fun getInstance(): MigratedPostgresContainer {
+            if (migratedPostgresContainer == null) {
+                migratedPostgresContainer = MigratedPostgresContainer().apply {
                     withDatabaseName("auth_service")
                     withUsername("auth_service")
                     withPassword("auth_service")
                 }
             }
-            return postgresContainer as PostgresTestContainer
+            return migratedPostgresContainer as MigratedPostgresContainer
         }
     }
 
     override fun start() {
         try {
             super.start()
+            FlywayConfig.flyway(jdbcUrl, username, password).migrate()
         } catch (e: Exception) {
             print(e)
         }
