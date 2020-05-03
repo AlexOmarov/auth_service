@@ -17,7 +17,6 @@ import java.util.*
 
 class UserDetailsImpl(private val email: String,
                       private val password: String,
-                      private val name: String? = null,
                       private val accountNonExpired: Boolean,
                       private val accountNonLocked: Boolean,
                       private val credentialsNonExpired: Boolean,

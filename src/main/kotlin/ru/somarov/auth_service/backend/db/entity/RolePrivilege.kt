@@ -5,8 +5,8 @@ import org.springframework.data.relational.core.mapping.Table
 
 @Table
 data class RolePrivilege(
-        var roleId: Short,
-        var privilege: Short
+        var idRole: Short,
+        var idPrivilege: Short
 ) {
     @Id
     var id: Int? = null

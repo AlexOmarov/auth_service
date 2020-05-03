@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service
 import reactor.core.publisher.Mono
 import ru.somarov.auth_service.backend.db.entity.Role
 import ru.somarov.auth_service.backend.db.entity.UserAccount
+import ru.somarov.auth_service.backend.db.repository.PrivilegeRepo
+import ru.somarov.auth_service.backend.db.repository.RoleRepo
 import ru.somarov.auth_service.backend.db.repository.UserAccountRepo
 import java.util.*
 
@@ -32,6 +34,12 @@ class UserDetailsServiceImpl : ReactiveUserDetailsService {
     private lateinit var userAccountRepo: UserAccountRepo
 
     @Autowired
+    private lateinit var roleRepo: RoleRepo
+
+    @Autowired
+    private lateinit var privilegeRepo: PrivilegeRepo
+
+    @Autowired
     lateinit var passwordEncoder: PasswordEncoder
 
 
@@ -49,16 +57,14 @@ class UserDetailsServiceImpl : ReactiveUserDetailsService {
                      role: Role,
                      name: String): Mono<UserAccount> {
         return userAccountRepo.save(
-                UserAccount(uuid = UUID(12L, 12L),
+                UserAccount(id = UUID(12L, 12L),
                      email = email,
                      password = passwordEncoder.encode(password),
                      accountNonExpired = true,
                      accountNonLocked = true,
-                credentialsNonExpired = true,
-                enabled = true)
-        )
+                     credentialsNonExpired = true,
+                     enabled = true))
     }
-
 
     /**
      *
@@ -68,8 +74,9 @@ class UserDetailsServiceImpl : ReactiveUserDetailsService {
      * @throws UsernameNotFoundException Пользователь не найден
      */
 
-    override fun findByUsername(username: String?): Mono<UserDetails> {
-        return Mono.just(UserDetailsImpl("asd", "111", "",
+    override fun findByUsername(email: String): Mono<UserDetails> {
+        val userAccount = userAccountRepo.findByEmail(email)
+        return Mono.just(UserDetailsImpl("asd", "111",
                 accountNonExpired = true, accountNonLocked = true, credentialsNonExpired = true,
                 enabled = true, authorities = mutableListOf(GrantedAuthorityImpl(""))))
     }

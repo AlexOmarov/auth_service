@@ -5,6 +5,8 @@ import org.springframework.data.relational.core.mapping.Table
 
 @Table
 data class Privilege(
-        @Id var id:Short,
         var name: String
-)
+) {
+    @Id
+    var id: Short? = null
+}

@@ -5,11 +5,10 @@ import org.springframework.data.relational.core.mapping.Table
 
 @Table
 data class UserRole(
-        var roleId: Short,
-        var userId: Short
+        var idRole: Short,
+        var idUserAccount: Short
 ) {
     @Id
     var id: Int? = null
-
 }
 

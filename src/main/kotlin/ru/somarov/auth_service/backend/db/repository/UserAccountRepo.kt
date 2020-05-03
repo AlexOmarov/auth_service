@@ -8,6 +8,6 @@ import java.util.*
 
 interface UserAccountRepo: ReactiveCrudRepository<UserAccount, UUID> {
 
-    @Query("SELECT * FROM \"user\" WHERE username = :username")
-    fun findByUsername(username: String): Mono<UserAccount>
+    //@Query("SELECT * FROM \"UserAccount\" WHERE email = :email")
+    fun findByEmail(email: String): Mono<UserAccount>
 }
