@@ -53,6 +53,7 @@ class HomeController {
 
     @GetMapping("/privilege", produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
     fun getPrivilege(): Flux<Privilege> {
+        println("kek")
         return privilegeRepo.findAll().delayElements(Duration.ofSeconds(1))
     }
 

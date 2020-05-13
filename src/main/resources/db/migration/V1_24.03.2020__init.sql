@@ -1,5 +1,3 @@
--- Diff date: 2020-05-06 16:09:39
--- Source model: new_database
 -- Database: auth_service
 -- PostgreSQL version: 12.0
 

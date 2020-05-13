@@ -8,8 +8,7 @@ import org.junit.runner.RunWith
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory.getLogger
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.test.context.SpringBootTest
+import org.springframework.boot.test.autoconfigure.data.r2dbc.DataR2dbcTest
 import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
@@ -27,7 +26,7 @@ import ru.somarov.auth_service.test_config.EmbeddedPostgres
 import ru.somarov.auth_service.test_config.testcontainer.MigratedPostgresContainer
 
 
-@SpringBootTest
+@DataR2dbcTest
 @EmbeddedPostgres
 @ActiveProfiles(profiles = ["test"])
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -36,9 +35,6 @@ import ru.somarov.auth_service.test_config.testcontainer.MigratedPostgresContain
 class IntegrationTest {
 
     private var passwordEncoder = BCryptPasswordEncoder()
-
-    @Value("\${spring.r2dbc.url}")
-    private var url: String = ""
 
     @Autowired
     private lateinit var privilegeRepo: PrivilegeRepo
@@ -70,7 +66,6 @@ class IntegrationTest {
     internal fun fillDb() {
         //Assume.assumeTrue(postgres.isRunning)
         LOGGER.info("BEFORE!!!")
-        LOGGER.info(url)
         privilegeRepo.saveAll(privileges)
                 .zipWith(accountRepo.saveAll(userAccounts))
                 .zipWith(roleRepo.saveAll(roles))
