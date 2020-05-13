@@ -51,8 +51,8 @@ class IntegrationTest {
     @Autowired
     private lateinit var accountRoleRepo: AccountRoleRepo
 
-    private val privileges = listOf(Privilege("READ"), Privilege("WRITE"))
-    private val roles = listOf(Role("ADMIN"), Role("USER"))
+    private val privileges = listOf(Privilege("READ1"), Privilege("WRITE1"))
+    private val roles = listOf(Role("ADMIN1"), Role("USER1"))
     private val userAccounts = listOf(
             Account(email = "shtil.a@yandex.ru",
                     password = passwordEncoder.encode("111222")
@@ -66,6 +66,7 @@ class IntegrationTest {
     internal fun fillDb() {
         //Assume.assumeTrue(postgres.isRunning)
         LOGGER.info("BEFORE!!!")
+        privilegeRepo.deleteAll()
         privilegeRepo.saveAll(privileges)
                 //.zipWith(accountRepo.saveAll(userAccounts))
                 .zipWith(roleRepo.saveAll(roles))

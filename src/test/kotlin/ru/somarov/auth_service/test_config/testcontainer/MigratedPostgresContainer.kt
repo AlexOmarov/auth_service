@@ -32,7 +32,7 @@ class MigratedPostgresContainer : PostgreSQLContainer<MigratedPostgresContainer>
     override fun start() {
         try {
             super.start()
-            //FlywayConfig.flyway(jdbcUrl, username, password).migrate()
+            FlywayConfig.flyway(jdbcUrl, username, password).migrate()
         } catch (e: Exception) {
             print(e)
         }
