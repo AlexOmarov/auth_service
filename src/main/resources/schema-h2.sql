@@ -4,12 +4,12 @@ CREATE TABLE IF NOT EXISTS PRIVILEGE (
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS USER_ACCOUNT (
+CREATE TABLE IF NOT EXISTS ACCOUNT (
     id uuid not null
-        constraint user_pk
+        constraint account_pk
             primary key,
     email varchar(512) not null
-        constraint user_unique_email
+        constraint account_unique_email
             unique,
     password varchar(512) not null,
     account_non_expired boolean default false not null,

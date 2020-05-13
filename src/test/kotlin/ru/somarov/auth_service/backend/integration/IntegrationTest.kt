@@ -67,7 +67,7 @@ class IntegrationTest {
         //Assume.assumeTrue(postgres.isRunning)
         LOGGER.info("BEFORE!!!")
         privilegeRepo.saveAll(privileges)
-                .zipWith(accountRepo.saveAll(userAccounts))
+                //.zipWith(accountRepo.saveAll(userAccounts))
                 .zipWith(roleRepo.saveAll(roles))
                 .subscribe()
     }
@@ -102,7 +102,7 @@ class IntegrationTest {
                         TestPropertyValues.of(
                                 "spring.r2dbc.url=" + postgres.jdbcUrl.replace("jdbc", "r2dbc"),
                                 "spring.flyway.url=" + postgres.jdbcUrl,
-                                "spring.datasource.platform=postgres"
+                                "spring.r2dbc.platform=postgres"
                         ).applyTo(applicationContext.environment)
                     } catch (e: Exception) {
                         print(e)
@@ -111,7 +111,7 @@ class IntegrationTest {
                     TestPropertyValues.of(
                             "spring.r2dbc.url=" + postgres.jdbcUrl.replace("jdbc", "r2dbc"),
                             "spring.flyway.url=" + postgres.jdbcUrl,
-                            "spring.datasource.platform=postgres"
+                            "spring.r2dbc.platform=postgres"
                     ).applyTo(applicationContext.environment)
                 }
 
