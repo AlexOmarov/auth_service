@@ -21,7 +21,7 @@ class UserDetailsImpl(private val email: String,
                       private val accountNonLocked: Boolean,
                       private val credentialsNonExpired: Boolean,
                       private val enabled: Boolean,
-                      private val authorities: MutableCollection<out GrantedAuthority>): UserDetails {
+                      private val authorities: MutableCollection<out GrantedAuthority>) : UserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
         return authorities
@@ -33,7 +33,7 @@ class UserDetailsImpl(private val email: String,
     }
 
     override fun getUsername(): String {
-       return email
+        return email
     }
 
     override fun isCredentialsNonExpired(): Boolean {

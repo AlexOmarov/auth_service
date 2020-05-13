@@ -4,9 +4,9 @@ import org.springframework.data.annotation.Id
 import org.springframework.data.relational.core.mapping.Table
 
 @Table
-data class UserRole(
+data class AccountRole(
         var idRole: Short,
-        var idUserAccount: Short
+        var idAccount: Short
 ) {
     @Id
     var id: Int? = null

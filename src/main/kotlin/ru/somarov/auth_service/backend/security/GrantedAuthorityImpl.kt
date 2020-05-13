@@ -1,4 +1,3 @@
-
 package ru.somarov.auth_service.backend.security
 
 import org.springframework.security.core.GrantedAuthority
@@ -14,7 +13,7 @@ import org.springframework.security.core.GrantedAuthority
  *  @since 1.0.0
  */
 
-class GrantedAuthorityImpl(private val authority: String): GrantedAuthority {
+class GrantedAuthorityImpl(private val authority: String) : GrantedAuthority {
     override fun getAuthority(): String {
         return authority
     }

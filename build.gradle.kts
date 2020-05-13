@@ -11,7 +11,7 @@ group = "ru.somarov"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 
-val developmentOnly by configurations.creating
+val developmentOnly: Configuration by configurations.creating
 configurations {
     runtimeClasspath {
         extendsFrom(developmentOnly)
@@ -32,11 +32,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-rsocket")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
+
+    implementation("org.springframework.boot:spring-boot-starter-jdbc")
+    implementation("org.flywaydb:flyway-core:6.3.3")
+
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-    implementation("org.flywaydb:flyway-core")
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+
     //implementation("org.springframework.security:spring-security-messaging")
     //implementation("org.springframework.security:spring-security-rsocket")
     //implementation("org.springframework.session:spring-session-data-redis")
@@ -59,10 +64,11 @@ dependencies {
     testImplementation("org.testcontainers:junit-jupiter:1.13.0")
     testImplementation("org.testcontainers:postgresql:1.13.0")
 
+    //testImplementation("org.flywaydb.flyway-test-extensions:flyway-spring-test:6.3.3")
 
     testImplementation("org.springframework.boot.experimental:spring-boot-test-autoconfigure-r2dbc")
     testImplementation("io.projectreactor:reactor-test")
-    //testImplementation("org.springframework.security:spring-security-test")
+    testImplementation("org.springframework.security:spring-security-test")
 }
 
 dependencyManagement {
@@ -77,7 +83,7 @@ tasks.withType<Test> {
 
 gradle.buildFinished {
     val srcDir = File("$buildDir/libs/${rootProject.name}-${version}.jar")
-    if(srcDir.exists()) {
+    if (srcDir.exists()) {
         println("Extracting deps")
         delete("build/deps")
         mkdir("build/deps")

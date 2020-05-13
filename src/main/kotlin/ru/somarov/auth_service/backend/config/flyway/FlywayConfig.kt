@@ -9,7 +9,7 @@ import java.sql.Connection
 
 object FlywayConfig {
 
-    fun flyway(url:String, username:String, password:String): Flyway {
+    fun flyway(url: String, username: String, password: String): Flyway {
         return Flyway.configure()
                 .dataSource(url, username, password)
                 .baselineOnMigrate(true)

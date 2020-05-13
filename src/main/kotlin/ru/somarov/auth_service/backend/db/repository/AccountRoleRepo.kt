@@ -1,6 +1,6 @@
 package ru.somarov.auth_service.backend.db.repository
 
 import org.springframework.data.repository.reactive.ReactiveCrudRepository
-import ru.somarov.auth_service.backend.db.entity.UserRole
+import ru.somarov.auth_service.backend.db.entity.AccountRole
 
-interface UserRoleRepo: ReactiveCrudRepository<UserRole, Int>
+interface AccountRoleRepo : ReactiveCrudRepository<AccountRole, Int>

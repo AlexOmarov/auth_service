@@ -21,11 +21,13 @@ import ru.somarov.auth_service.backend.config.flyway.FlywayConfig
 @Profile("!test")
 class StartupApplicationListener : ApplicationListener<ContextRefreshedEvent?> {
 
-    @Value("\${fw.username}")
+    @Value("\${spring.flyway.user}")
     private var username: String = ""
-    @Value("\${fw.password}")
+
+    @Value("\${spring.flyway.password}")
     private var password: String = ""
-    @Value("\${fw.url}")
+
+    @Value("\${spring.flyway.url}")
     private var url: String = ""
 
     companion object {
@@ -33,6 +35,6 @@ class StartupApplicationListener : ApplicationListener<ContextRefreshedEvent?> {
     }
 
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
-       FlywayConfig.flyway(url = url,password = password,username = username).migrate()
+        //FlywayConfig.flyway(url = url,password = password,username = username).migrate()
     }
 }

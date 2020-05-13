@@ -9,13 +9,12 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import ru.somarov.auth_service.backend.db.entity.Privilege
 import ru.somarov.auth_service.backend.db.entity.Role
-import ru.somarov.auth_service.backend.db.entity.UserAccount
+import ru.somarov.auth_service.backend.db.entity.Account
 import ru.somarov.auth_service.backend.db.repository.PrivilegeRepo
 import ru.somarov.auth_service.backend.db.repository.RoleRepo
-import ru.somarov.auth_service.backend.db.repository.UserAccountRepo
+import ru.somarov.auth_service.backend.db.repository.AccountRepo
 import ru.somarov.auth_service.backend.security.UserDetailsServiceImpl
 import java.time.Duration
-import javax.annotation.PostConstruct
 
 
 @RestController
@@ -28,7 +27,7 @@ class HomeController {
     private lateinit var userDetailsServiceImpl: UserDetailsServiceImpl
 
     @Autowired
-    private lateinit var userAccountRepo: UserAccountRepo
+    private lateinit var accountRepo: AccountRepo
 
     @Autowired
     private lateinit var privilegeRepo: PrivilegeRepo
@@ -38,8 +37,9 @@ class HomeController {
     fun greet(str: Mono<String>): Mono<String> {
         return Mono.just("Response")
     }
+
     @GetMapping("/register")
-    fun register(): Mono<UserAccount>? {
+    fun register(): Mono<Account>? {
 
         return roleRepo.findById(1)
                 .flatMap { role: Role ->
@@ -57,7 +57,7 @@ class HomeController {
     }
 
     @GetMapping("/user/{email}")
-    fun getUser(@PathVariable("email") email:String): Mono<UserAccount> {
-        return userAccountRepo.findByEmail(email)
+    fun getUser(@PathVariable("email") email: String): Mono<Account> {
+        return accountRepo.findByEmail(email)
     }
 }

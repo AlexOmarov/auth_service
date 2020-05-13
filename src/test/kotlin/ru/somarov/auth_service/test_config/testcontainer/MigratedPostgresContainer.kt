@@ -11,7 +11,7 @@ import ru.somarov.auth_service.backend.config.flyway.FlywayConfig
  *  @version 1.0.0
  *  @since 1.0.0
  */
-class MigratedPostgresContainer: PostgreSQLContainer<MigratedPostgresContainer>(IMAGE) {
+class MigratedPostgresContainer : PostgreSQLContainer<MigratedPostgresContainer>(IMAGE) {
 
     companion object {
         private var IMAGE: String = "postgres:latest"
@@ -32,7 +32,7 @@ class MigratedPostgresContainer: PostgreSQLContainer<MigratedPostgresContainer>(
     override fun start() {
         try {
             super.start()
-            FlywayConfig.flyway(jdbcUrl, username, password).migrate()
+            //FlywayConfig.flyway(jdbcUrl, username, password).migrate()
         } catch (e: Exception) {
             print(e)
         }
