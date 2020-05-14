@@ -1,10 +1,11 @@
-CREATE TABLE IF NOT EXISTS PRIVILEGE (
+CREATE SCHEMA IF NOT EXISTS AUTH_SERVICE;
+CREATE TABLE IF NOT EXISTS AUTH_SERVICE.PRIVILEGE (
     id SMALLINT AUTO_INCREMENT NOT NULL,
     name VARCHAR(128) NOT NULL,
     PRIMARY KEY (id)
 );
 
-CREATE TABLE IF NOT EXISTS ACCOUNT (
+CREATE TABLE IF NOT EXISTS AUTH_SERVICE.ACCOUNT (
     id uuid not null
         constraint account_pk
             primary key,
@@ -18,7 +19,7 @@ CREATE TABLE IF NOT EXISTS ACCOUNT (
     enabled boolean default false not null
 );
 
-create table role
+create table AUTH_SERVICE.ROLE
 (
     id smallint AUTO_INCREMENT not null
         constraint role_pk

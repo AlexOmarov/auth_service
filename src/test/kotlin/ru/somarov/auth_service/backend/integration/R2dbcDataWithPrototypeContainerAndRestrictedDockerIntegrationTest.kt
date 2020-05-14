@@ -13,26 +13,28 @@ import org.springframework.boot.test.util.TestPropertyValues
 import org.springframework.context.ApplicationContextInitializer
 import org.springframework.context.ConfigurableApplicationContext
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.test.annotation.DirtiesContext
 import org.springframework.test.context.ActiveProfiles
 import org.springframework.test.context.ContextConfiguration
 import org.springframework.test.context.junit4.SpringRunner
-import org.testcontainers.junit.jupiter.Container
+import org.testcontainers.containers.PostgreSQLContainer
+import org.testcontainers.junit.jupiter.Testcontainers
 import reactor.test.StepVerifier
 import ru.somarov.auth_service.backend.db.entity.Account
 import ru.somarov.auth_service.backend.db.entity.Privilege
 import ru.somarov.auth_service.backend.db.entity.Role
 import ru.somarov.auth_service.backend.db.repository.*
-import ru.somarov.auth_service.test_config.EmbeddedPostgres
 import ru.somarov.auth_service.test_config.testcontainer.MigratedPostgresContainer
 
 
 @DataR2dbcTest
-@EmbeddedPostgres
-@ActiveProfiles(profiles = ["test"])
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ContextConfiguration(initializers = [IntegrationTest.Companion.Initializer::class])
+@DirtiesContext
 @RunWith(SpringRunner::class)
-class IntegrationTest {
+@ActiveProfiles(profiles = ["test"])
+@Testcontainers(disabledWithoutDocker = true)
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ContextConfiguration(initializers = [R2dbcDataWithPrototypeContainerAndRestrictedDockerIntegrationTest.Companion.Initializer::class])
+class R2dbcDataWithPrototypeContainerAndRestrictedDockerIntegrationTest {
 
     private var passwordEncoder = BCryptPasswordEncoder()
 
@@ -66,7 +68,7 @@ class IntegrationTest {
     internal fun fillDb() {
         //Assume.assumeTrue(postgres.isRunning)
         LOGGER.info("BEFORE!!!")
-        privilegeRepo.deleteAll()
+        privilegeRepo.deleteAll().block()
         privilegeRepo.saveAll(privileges)
                 //.zipWith(accountRepo.saveAll(userAccounts))
                 .zipWith(roleRepo.saveAll(roles))
@@ -90,32 +92,18 @@ class IntegrationTest {
 
     companion object {
 
-        @Container
-        val postgres = MigratedPostgresContainer.getInstance()
+        val postgres = PostgreSQLContainer<Nothing>("postgres:latest")
 
-        private val LOGGER: Logger = getLogger(IntegrationTest::class.java)
+        private val LOGGER: Logger = getLogger(R2dbcDataWithPrototypeContainerAndRestrictedDockerIntegrationTest::class.java)
 
         internal class Initializer : ApplicationContextInitializer<ConfigurableApplicationContext> {
             override fun initialize(applicationContext: ConfigurableApplicationContext) {
-                if (!postgres.isRunning) {
-                    try {
-                        postgres.start()
-                        TestPropertyValues.of(
-                                "spring.r2dbc.url=" + postgres.jdbcUrl.replace("jdbc", "r2dbc"),
-                                "spring.flyway.url=" + postgres.jdbcUrl,
-                                "spring.r2dbc.platform=postgres"
-                        ).applyTo(applicationContext.environment)
-                    } catch (e: Exception) {
-                        print(e)
-                    }
-                } else {
-                    TestPropertyValues.of(
-                            "spring.r2dbc.url=" + postgres.jdbcUrl.replace("jdbc", "r2dbc"),
-                            "spring.flyway.url=" + postgres.jdbcUrl,
-                            "spring.r2dbc.platform=postgres"
-                    ).applyTo(applicationContext.environment)
-                }
-
+                postgres.start()
+                TestPropertyValues.of(
+                        "spring.r2dbc.url=" + postgres.jdbcUrl.replace("jdbc", "r2dbc"),
+                        "spring.flyway.url=" + postgres.jdbcUrl,
+                        "spring.r2dbc.platform=postgres"
+                ).applyTo(applicationContext.environment)
             }
 
         }
