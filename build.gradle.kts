@@ -44,8 +44,11 @@ dependencies {
 
     //implementation("org.springframework.security:spring-security-messaging")
     //implementation("org.springframework.security:spring-security-rsocket")
-    //implementation("org.springframework.session:spring-session-data-redis")
+    implementation("org.springframework.session:spring-session-core")
+    implementation("org.springframework.session:spring-session-data-redis")
     //implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
+
+
 
     runtimeOnly("io.r2dbc:r2dbc-postgresql")
     runtimeOnly("io.r2dbc:r2dbc-h2")
