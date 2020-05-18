@@ -7,10 +7,10 @@ import ru.somarov.auth_service.backend.db.entity.Account
 import java.util.*
 
 interface AccountRepo : ReactiveCrudRepository<Account, UUID> {
-    @Query("SELECT * FROM Account WHERE email = :email")
+    @Query("SELECT * FROM Account WHERE email = $1")
     fun findByEmail(email: String): Mono<Account>
 
-    @Query("INSERT INTO Account values(:account.id," +
+/*    @Query("INSERT INTO Account values(:account.id," +
             " :account.email," +
             " :account.password," +
             " :account.accountNonExpired," +
@@ -29,5 +29,5 @@ interface AccountRepo : ReactiveCrudRepository<Account, UUID> {
             " enabled=:account.enabled" +
             " WHERE id=:account.id" +
             ")")
-    fun update(account: Account): Mono<Account>
+    fun update(account: Account): Mono<Account>*/
 }

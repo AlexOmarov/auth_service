@@ -17,6 +17,7 @@ import org.springframework.test.context.junit4.SpringRunner
 import org.testcontainers.junit.jupiter.Container
 import org.testcontainers.junit.jupiter.Testcontainers
 import reactor.test.StepVerifier
+import ru.somarov.auth_service.backend.db.entity.Privilege
 import ru.somarov.auth_service.backend.db.repository.PrivilegeRepo
 import ru.somarov.auth_service.test_config.testcontainer.MigratedPostgresContainer
 
@@ -32,9 +33,12 @@ class SpringBootIntegrationTest {
     @Autowired
     private lateinit var privilegeRepo: PrivilegeRepo
 
+    private val privileges = listOf(Privilege("READ1"), Privilege("WRITE1"))
+
     @BeforeAll
     internal fun fillDb() {
-
+        privilegeRepo.deleteAll().block()
+        privilegeRepo.saveAll(privileges).blockLast()
     }
 
     @AfterAll

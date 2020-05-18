@@ -58,10 +58,10 @@ class StartupApplicationListener : ApplicationListener<ContextRefreshedEvent?> {
     private val privileges = listOf(Privilege("READ1"), Privilege("WRITE1"))
     private val roles = listOf(Role("ADMIN1"), Role("USER1"))
     private val userAccounts = listOf(
-            Account(id = UUID.randomUUID(), email = "shtil.a@yandex.ru",
+            Account(email = "shtil.a@yandex.ru",
                     password = passwordEncoder.encode("111222")
             ),
-            Account(id = UUID.randomUUID(), email = "dev@yandex.ru",
+            Account(email = "dev@yandex.ru",
                     password = passwordEncoder.encode("111333"))
     )
 
@@ -72,11 +72,11 @@ class StartupApplicationListener : ApplicationListener<ContextRefreshedEvent?> {
     }
 
     override fun onApplicationEvent(event: ContextRefreshedEvent) {
-        privilegeRepo.saveAll(privileges)
+       /* privilegeRepo.saveAll(privileges)
                 //.zipWith(accountRepo.saveAll(userAccounts))
                 .zipWith(roleRepo.saveAll(roles))
                 .zipWith(accountRepo.save(userAccounts[1]))
-                .subscribe()
+                .subscribe()*/
         //FlywayConfig.flyway(url = url,password = password,username = username).migrate()
     }
 }

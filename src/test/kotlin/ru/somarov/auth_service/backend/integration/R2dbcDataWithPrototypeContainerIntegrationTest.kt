@@ -1,3 +1,4 @@
+/*
 package ru.somarov.auth_service.backend.integration
 
 import org.junit.jupiter.api.AfterAll
@@ -112,4 +113,4 @@ class R2dbcDataWithPrototypeContainerIntegrationTest {
 
         }
     }
-}
+}*/

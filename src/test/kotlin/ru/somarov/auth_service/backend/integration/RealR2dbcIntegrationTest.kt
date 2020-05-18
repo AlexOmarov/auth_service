@@ -70,8 +70,7 @@ class RealR2dbcIntegrationTest {
         privilegeRepo.deleteAll().block()
         privilegeRepo.saveAll(privileges)
                 //.zipWith(accountRepo.saveAll(userAccounts))
-                .zipWith(roleRepo.saveAll(roles))
-                .subscribe()
+                .zipWith(roleRepo.saveAll(roles)).blockLast()
     }
 
     @AfterAll

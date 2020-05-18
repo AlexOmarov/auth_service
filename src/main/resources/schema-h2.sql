@@ -19,7 +19,7 @@ CREATE TABLE IF NOT EXISTS AUTH_SERVICE.ACCOUNT (
     enabled boolean default false not null
 );
 
-create table AUTH_SERVICE.ROLE
+create table IF NOT EXISTS AUTH_SERVICE.ROLE
 (
     id smallint AUTO_INCREMENT not null
         constraint role_pk

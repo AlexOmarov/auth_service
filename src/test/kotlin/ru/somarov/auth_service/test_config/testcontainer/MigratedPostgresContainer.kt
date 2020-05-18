@@ -32,6 +32,7 @@ class MigratedPostgresContainer : PostgreSQLContainer<MigratedPostgresContainer>
     override fun start() {
         try {
             super.start()
+            //TODO: uuid-ossp
             FlywayConfig.flyway(jdbcUrl, username, password).migrate()
         } catch (e: Exception) {
             print(e)
