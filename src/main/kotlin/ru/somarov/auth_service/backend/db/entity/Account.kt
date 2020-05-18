@@ -18,7 +18,7 @@ data class Account(
         // Если же id не заполнен, то hibernate/jpa даже несмотря на автоматическое заполнение им uuid-а
         // вызовет только insert.
         // Необходимо имплементировать новый метод в репозитории для insert-а.
-        var id: UUID = UUID.randomUUID(),
+        var id: UUID? = null,
         var email: String,
         var password: String = "",
         var accountNonExpired: Boolean? = false,

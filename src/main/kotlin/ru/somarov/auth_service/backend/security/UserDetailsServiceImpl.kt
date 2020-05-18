@@ -75,11 +75,25 @@ class UserDetailsServiceImpl : ReactiveUserDetailsService {
      */
 
     override fun findByUsername(email: String): Mono<UserDetails> {
-        /*val userAccount = accountRepo.findByEmail(email).doOnNext {
+        return accountRepo.findByEmail(email)
+                .flatMap { acc ->
+                                roleRepo
+                                        .findAllByUserAccountId(acc.id!!)
+                                        .collectList().flatMap { roles ->
+                                            privilegeRepo
+                                                    .findAllByRolesId(roles.map { it.id!! })
+                                                    .collectList().map {
+                                                        it.map { it.name }.union(roles.map { "ROLE_" + it.name }).map {
+                                                            GrantedAuthorityImpl(it)
+                                                        }.toMutableList()
+                                                    }
+                                        }.map { authorities ->
+                                            UserDetailsImpl(acc.email, acc.password,
+                                                    accountNonExpired = true, accountNonLocked = true, credentialsNonExpired = true,
+                                                    enabled = true, authorities = authorities)
+                                        }
 
-        }*/
-        return Mono.just(UserDetailsImpl("asd", "111",
-                accountNonExpired = true, accountNonLocked = true, credentialsNonExpired = true,
-                enabled = true, authorities = mutableListOf(GrantedAuthorityImpl(""))))
+
+               }
     }
 }
