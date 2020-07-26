@@ -68,8 +68,8 @@ CREATE TABLE auth_service.account (
                                       account_non_locked boolean NOT NULL DEFAULT false,
                                       credentials_non_expired boolean NOT NULL DEFAULT false,
                                       enabled boolean NOT NULL DEFAULT false,
-                                      CONSTRAINT user_unique_email UNIQUE (email),
-                                      CONSTRAINT user_pk PRIMARY KEY (id)
+                                      CONSTRAINT account_unique_email UNIQUE (email),
+                                      CONSTRAINT account_pk PRIMARY KEY (id)
 
 );
 -- ddl-end --
@@ -82,7 +82,7 @@ CREATE TABLE auth_service.account_role (
                                            id serial NOT NULL,
                                            id_account uuid NOT NULL,
                                            id_role smallint NOT NULL,
-                                           CONSTRAINT many_user_has_many_role_pk PRIMARY KEY (id)
+                                           CONSTRAINT many_account_has_many_role_pk PRIMARY KEY (id)
 
 );
 -- ddl-end --

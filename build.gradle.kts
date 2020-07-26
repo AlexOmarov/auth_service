@@ -30,7 +30,7 @@ dependencies {
     implementation("org.springframework.boot.experimental:spring-boot-starter-data-r2dbc")
     //implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-rsocket")
-    implementation("org.springframework.boot:spring-boot-starter-security")
+    //implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
@@ -41,6 +41,10 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation("io.opentracing.contrib:opentracing-spring-jaeger-cloud-starter:3.1.2")
+    implementation("ch.qos.logback:logback-classic:1.2.3")
+    implementation("io.github.microutils:kotlin-logging:1.8.3")
+
 
     //implementation("org.springframework.security:spring-security-messaging")
     //implementation("org.springframework.security:spring-security-rsocket")

@@ -1,33 +1,43 @@
 package ru.somarov.auth_service.backend.controller
 
+/*import ru.somarov.auth_service.backend.security.UserDetailsServiceImpl*/
+import io.opentracing.Span
+import io.opentracing.Tracer
+import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Qualifier
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
-import ru.somarov.auth_service.backend.db.entity.Privilege
-import ru.somarov.auth_service.backend.db.entity.Role
 import ru.somarov.auth_service.backend.db.entity.Account
+import ru.somarov.auth_service.backend.db.entity.Privilege
+import ru.somarov.auth_service.backend.db.repository.AccountRepo
 import ru.somarov.auth_service.backend.db.repository.PrivilegeRepo
 import ru.somarov.auth_service.backend.db.repository.RoleRepo
-import ru.somarov.auth_service.backend.db.repository.AccountRepo
-import ru.somarov.auth_service.backend.security.UserDetailsServiceImpl
 import java.time.Duration
 
 
 @RestController
 class HomeController {
 
+    private val log = KotlinLogging.logger {}
+
+    @Qualifier("tracer")
+    @Autowired
+    private lateinit var tracer: Tracer
+
     @Autowired
     private lateinit var roleRepo: RoleRepo
 
-    @Autowired
-    private lateinit var userDetailsServiceImpl: UserDetailsServiceImpl
+    /*@Autowired
+    private lateinit var userDetailsServiceImpl: UserDetailsServiceImpl*/
 
     @Autowired
     private lateinit var accountRepo: AccountRepo
+
 
     @Autowired
     private lateinit var privilegeRepo: PrivilegeRepo
@@ -38,23 +48,16 @@ class HomeController {
         return Mono.just("Response")
     }
 
-    @GetMapping("/register")
-    fun register(): Mono<Account>? {
-
-        return roleRepo.findById(1)
-                .flatMap { role: Role ->
-                    userDetailsServiceImpl.registerUser(
-                            "decentboat@gmail.com",
-                            "111",
-                            role,
-                            "DecentBoat")
-                }
-    }
-
     @GetMapping("/privilege", produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
     fun getPrivilege(): Flux<Privilege> {
-        println("kek")
-        return privilegeRepo.findAll().delayElements(Duration.ofSeconds(1))
+        val activeSpan = tracer.scopeManager().activeSpan()
+        log.info { activeSpan }
+        val scope = tracer.activateSpan(tracer.buildSpan("/privilege").start())
+        log.info { tracer.scopeManager().activeSpan() }
+        log.info { scope }
+        tracer.activeSpan().finish()
+
+        return privilegeRepo.findAll()
     }
 
     @GetMapping("/user/{email}")

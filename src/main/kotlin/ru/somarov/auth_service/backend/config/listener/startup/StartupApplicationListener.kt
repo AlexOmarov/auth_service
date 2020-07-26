@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationListener
 import org.springframework.context.annotation.Profile
 import org.springframework.context.event.ContextRefreshedEvent
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+/*import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder*/
 import org.springframework.stereotype.Component
 import ru.somarov.auth_service.backend.config.flyway.FlywayConfig
 import ru.somarov.auth_service.backend.db.entity.Account
@@ -43,7 +43,7 @@ class StartupApplicationListener : ApplicationListener<ContextRefreshedEvent?> {
     @Autowired
     private lateinit var accountRoleRepo: AccountRoleRepo
 
-    private val passwordEncoder = BCryptPasswordEncoder()
+    /*private val passwordEncoder = BCryptPasswordEncoder()*/
 
 
     @Value("\${spring.flyway.user}")
@@ -57,13 +57,13 @@ class StartupApplicationListener : ApplicationListener<ContextRefreshedEvent?> {
 
     private val privileges = listOf(Privilege("READ1"), Privilege("WRITE1"))
     private val roles = listOf(Role("ADMIN1"), Role("USER1"))
-    private val userAccounts = listOf(
+    /*private val userAccounts = listOf(
             Account(email = "shtil.a@yandex.ru",
                     password = passwordEncoder.encode("111222")
             ),
             Account(email = "dev@yandex.ru",
                     password = passwordEncoder.encode("111333"))
-    )
+    )*/
 
 
 
