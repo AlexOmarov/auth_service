@@ -1,4 +1,3 @@
-/*
 package ru.somarov.auth_service.backend.security
 
 import org.springframework.security.core.GrantedAuthority
@@ -6,7 +5,6 @@ import org.springframework.security.core.userdetails.UserDetails
 import java.util.*
 
 
-*/
 /**
  * Имплементация {@link UserDetails UserDetails} - класс, несущий в себе информацию о пользователе.
  * При аутентификации экземплярс данными пользователя доступен из контекста.
@@ -15,7 +13,7 @@ import java.util.*
  *  @date 24.02.2020
  *  @version 1.0.0
  *  @since 1.0.0
- *//*
+ */
 
 
 class UserDetailsImpl(private val email: String,
@@ -56,4 +54,3 @@ class UserDetailsImpl(private val email: String,
     }
 
 }
-*/

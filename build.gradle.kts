@@ -32,18 +32,25 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-rsocket")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.boot:spring-boot-starter-security")
+
+
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
-    implementation("org.springframework.boot:spring-boot-starter-actuator")
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
+
     implementation("ch.qos.logback:logback-classic")
     implementation("io.micrometer:micrometer-registry-prometheus")
     implementation("io.micrometer:micrometer-core")
 
 
     implementation("io.opentracing.contrib:opentracing-spring-jaeger-cloud-starter:3.1.2")
+
     implementation("org.flywaydb:flyway-core:6.3.3")
+
     implementation("net.logstash.logback:logstash-logback-encoder:6.4")
     implementation("io.github.microutils:kotlin-logging:1.8.3")
 

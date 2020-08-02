@@ -1,4 +1,3 @@
-/*
 package ru.somarov.auth_service.backend.security
 
 import org.springframework.beans.factory.annotation.Autowired
@@ -17,7 +16,6 @@ import ru.somarov.auth_service.backend.db.repository.AccountRepo
 import java.util.*
 
 
-*/
 /**
  *  Имплементация {@link UserDetailsService UserDetailsService} - класс, представляющий собой
  *  сервис аутентификации
@@ -27,10 +25,9 @@ import java.util.*
  *  @date 24.02.2020
  *  @version 1.0.0
  *  @since 1.0.0
- *//*
+ */
 
-*/
-/*@Service
+@Service
 class UserDetailsServiceImpl : ReactiveUserDetailsService {
 
 
@@ -47,18 +44,14 @@ class UserDetailsServiceImpl : ReactiveUserDetailsService {
     lateinit var passwordEncoder: PasswordEncoder
 
 
-    *//*
-*/
-/**
+    /**
      * Регистрация новых пользователей
      * @param email email нового пользователя
      * @param password пароль нового пользоватля
      * @param role роль нового пользователя
      * @param name ник нового пользователя
      * @return новый пользователь из базы
-     *//*
-*/
-/*
+     */
 
     fun registerUser(email: String,
                      password: String,
@@ -74,42 +67,36 @@ class UserDetailsServiceImpl : ReactiveUserDetailsService {
                         enabled = true))
     }
 
-    *//*
-*/
-/**
+
+    /**
      *
      * Получение аутентифицированного пользователя
      * @param email email пользователя
      * @return UserDetailsImpl с заполненными данными пользователя
      * @throws UsernameNotFoundException Пользователь не найден
-     *//*
-*/
-/*
+     */
 
     override fun findByUsername(email: String): Mono<UserDetails> {
-        return Mono.from {  }*//*
-*/
-/*accountRepo.findByEmail(email)
+        return Mono.from { }
+        /*accountRepo.findByEmail(email)
                 .flatMap { acc ->
-                                roleRepo
-                                        .findAllByUserAccountId(acc.id!!)
-                                        .collectList().flatMap { roles ->
-                                            privilegeRepo
-                                                    .findAllByRolesId(roles.map { it.id!! })
-                                                    .collectList().map {
-                                                        it.map { it.name }.union(roles.map { "ROLE_" + it.name }).map {
-                                                            GrantedAuthorityImpl(it)
-                                                        }.toMutableList()
-                                                    }
-                                        }.map { authorities ->
-                                            UserDetailsImpl(acc.email, acc.password,
-                                                    accountNonExpired = true, accountNonLocked = true, credentialsNonExpired = true,
-                                                    enabled = true, authorities = authorities)
+                    roleRepo
+                            .findAllByUserAccountId(acc.id!!)
+                            .collectList().flatMap { roles ->
+                                privilegeRepo
+                                        .findAllByRolesId(roles.map { it.id!! })
+                                        .collectList().map {
+                                            it.map { it.name }.union(roles.map { "ROLE_" + it.name }).map {
+                                                GrantedAuthorityImpl(it)
+                                            }.toMutableList()
                                         }
+                            }.map { authorities ->
+                                UserDetailsImpl(acc.email, acc.password,
+                                        accountNonExpired = true, accountNonLocked = true, credentialsNonExpired = true,
+                                        enabled = true, authorities = authorities)
+                            }
 
 
-               }*//*
-*/
-/*
+                }*/
     }
-}*/
+}
