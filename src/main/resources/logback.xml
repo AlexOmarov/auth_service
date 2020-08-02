@@ -5,7 +5,18 @@
         </encoder>
     </appender>
 
-    <root level="debug">
-        <appender-ref ref="STDOUT" />
+    <appender name="elk" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+    </appender>
+
+    <!--<appender name="STASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>193.187.174.125:5000</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder"/>
+        <keepAliveDuration>5 minutes</keepAliveDuration>
+    </appender>-->
+
+    <root level="info">
+        <!--<appender-ref ref="STASH"/>-->
+        <appender-ref ref="STDOUT"/>
     </root>
 </configuration>

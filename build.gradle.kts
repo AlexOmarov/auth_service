@@ -10,6 +10,7 @@ plugins {
 group = "ru.somarov"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
+extra["micrometer.version"] = "1.4.2"
 
 val developmentOnly: Configuration by configurations.creating
 configurations {
@@ -28,22 +29,30 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot.experimental:spring-boot-starter-data-r2dbc")
-    //implementation("org.springframework.boot:spring-boot-starter-oauth2-client")
     implementation("org.springframework.boot:spring-boot-starter-rsocket")
-    //implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
-    implementation("org.flywaydb:flyway-core:6.3.3")
-
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
-
     implementation("org.jetbrains.kotlin:kotlin-reflect")
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
+    implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("ch.qos.logback:logback-classic")
+    implementation("io.micrometer:micrometer-registry-prometheus")
+    implementation("io.micrometer:micrometer-core")
+
+
     implementation("io.opentracing.contrib:opentracing-spring-jaeger-cloud-starter:3.1.2")
-    implementation("ch.qos.logback:logback-classic:1.2.3")
+    implementation("org.flywaydb:flyway-core:6.3.3")
+    implementation("net.logstash.logback:logstash-logback-encoder:6.4")
     implementation("io.github.microutils:kotlin-logging:1.8.3")
+
+
+
+    // do deps independently. in such way we can easily connect every opentracing implementation.
+    // the only thing to do is to configure the tracer bean
+/*    implementation("io.opentracing.contrib:opentracing-spring-cloud-starter:0.5.6")
+    implementation("io.jaegertracing:jaeger-client:1.3.1")*/
 
 
     //implementation("org.springframework.security:spring-security-messaging")
