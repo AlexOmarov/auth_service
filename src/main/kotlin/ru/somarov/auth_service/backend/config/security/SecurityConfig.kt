@@ -42,7 +42,7 @@ class SecurityConfig {
      */
     @Bean
     fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
-        http.csrf().disable().authorizeExchange().anyExchange().authenticated()
+        http.csrf().disable().authorizeExchange().anyExchange().authenticated().and().formLogin()
         return http.build()
     }
 

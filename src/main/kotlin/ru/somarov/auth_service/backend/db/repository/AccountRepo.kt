@@ -7,7 +7,7 @@ import ru.somarov.auth_service.backend.db.entity.Account
 import java.util.*
 
 interface AccountRepo : ReactiveCrudRepository<Account, UUID> {
-    @Query("SELECT * FROM Account WHERE email = $1")
+    @Query("SELECT * FROM auth_service.account WHERE email like :email")
     fun findByEmail(email: String): Mono<Account>
 
 /*    @Query("INSERT INTO Account values(:account.id," +

@@ -5,14 +5,17 @@ import org.springframework.data.relational.core.mapping.Table
 import java.util.*
 
 @Table("auth_service.account")
-data class Account(
+data class Account (
         @Id
         var id: UUID? = null,
         var email: String,
         var password: String = "",
-        var accountNonExpired: Boolean? = false,
-        var accountNonLocked: Boolean? = false,
-        var credentialsNonExpired: Boolean? = false,
-        var enabled: Boolean? = false
-)
+        var accountNonExpired: Boolean = false,
+        var accountNonLocked: Boolean = false,
+        var credentialsNonExpired: Boolean = false,
+        var enabled: Boolean = false
+
+) {
+        lateinit var roles: MutableList<Role>
+}
 
