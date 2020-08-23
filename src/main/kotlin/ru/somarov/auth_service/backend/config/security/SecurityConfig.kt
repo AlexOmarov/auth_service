@@ -4,13 +4,10 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
-
 import org.springframework.security.config.web.server.ServerHttpSecurity
-import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.server.SecurityWebFilterChain
-import ru.somarov.auth_service.backend.security.UserDetailsServiceImpl
 
 
 /**
@@ -42,8 +39,15 @@ class SecurityConfig {
      */
     @Bean
     fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
-        http.csrf().disable().authorizeExchange().anyExchange().authenticated().and().formLogin()
-        return http.build()
+        // TODO: enable only post login endpoint for login
+        return http
+                .csrf().disable()
+                .httpBasic().disable()
+                .authorizeExchange()
+                .pathMatchers("/**").authenticated()
+                .pathMatchers("/login").permitAll()
+                .and().logout().logoutUrl("/perform_logout")
+                .and().build()
     }
 
 }

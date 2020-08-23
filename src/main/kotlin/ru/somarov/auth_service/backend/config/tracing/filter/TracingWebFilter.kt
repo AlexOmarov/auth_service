@@ -23,8 +23,6 @@ class TracingWebFilter(private val tracer: Tracer) : WebFilter {
         log.info { "Web filter for tracing, method name ${exchange.request.path}, span $activeSpan" }
         // TODO: operation name doesn't change. Maybe because of default tracing filter which goes first
         activeSpan?.setOperationName(exchange.request.path.toString())
-
-
         activeSpan?.setTag("TRACING WEB FILTER", "DONE")
         exchange.response.headers.add("web-filter", "web-filter-test")
         return chain.filter(exchange)

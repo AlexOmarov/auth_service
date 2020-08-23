@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.server.WebSession
 import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 import ru.somarov.auth_service.backend.config.log.Loggable
@@ -45,8 +46,16 @@ class HomeController {
         return accountRepo.findAll()
     }
 
+
     @GetMapping("/roles", produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
     fun getRoles(): Flux<Role> {
         return roleRepo.findAll()
+    }
+
+    @Loggable
+    @GetMapping("/websession", produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
+    fun getSession(session: WebSession): Flux<Map<String, Any>> {
+        session.attributes.putIfAbsent("note", "Howdy Cosmic Spheroid!")
+        return Flux.just(session.attributes)
     }
 }

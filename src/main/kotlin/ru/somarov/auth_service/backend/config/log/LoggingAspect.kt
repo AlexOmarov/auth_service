@@ -30,6 +30,7 @@ class LoggingAspect {
             is Mono<*> -> {
                 result.doOnSuccess {
                     logOperation(joinPoint, it, start)
+                    log.info { "MONO COMPLETED IN LOGGING" }
                 }
             }
             is Flux<*> -> {

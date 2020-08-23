@@ -10,6 +10,5 @@ data class RolePrivilege(
 ) {
     @Id
     var id: Int? = null
-
 }
 

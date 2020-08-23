@@ -1,7 +1,7 @@
 package ru.somarov.auth_service.test_config.testcontainer
 
 import org.testcontainers.containers.PostgreSQLContainer
-import ru.somarov.auth_service.backend.config.flyway.FlywayConfig
+import ru.somarov.auth_service.test_config.testcontainer.flyway.FlywayConfig
 
 
 /**

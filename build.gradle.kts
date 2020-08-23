@@ -2,6 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("org.springframework.boot") version "2.2.5.RELEASE"
+   /* id("org.springframework.session") version "2.2.5.RELEASE"*/
     id("io.spring.dependency-management") version "1.0.9.RELEASE"
     kotlin("jvm") version "1.3.61"
     kotlin("plugin.spring") version "1.3.61"
@@ -29,6 +30,8 @@ repositories {
 
 dependencies {
     implementation("org.springframework.boot.experimental:spring-boot-starter-data-r2dbc")
+    implementation("org.springframework.session:spring-session-data-redis")
+    implementation("org.springframework.session:spring-session-core")
     implementation("org.springframework.boot:spring-boot-starter-rsocket")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
@@ -54,6 +57,9 @@ dependencies {
     implementation("net.logstash.logback:logstash-logback-encoder:6.4")
     implementation("io.github.microutils:kotlin-logging:1.8.3")
 
+    implementation("io.lettuce:lettuce-core:5.1.1.RELEASE")
+    implementation("org.apache.commons:commons-pool2:2.8.1")
+
 
 
     // do deps independently. in such way we can easily connect every opentracing implementation.
@@ -64,8 +70,6 @@ dependencies {
 
     //implementation("org.springframework.security:spring-security-messaging")
     //implementation("org.springframework.security:spring-security-rsocket")
-    //implementation("org.springframework.session:spring-session-core")
-    //implementation("org.springframework.session:spring-session-data-redis")
     //implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 
 

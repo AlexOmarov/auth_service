@@ -1,5 +1,6 @@
 package ru.somarov.auth_service.backend.security
 
+import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.*
@@ -28,6 +29,7 @@ import java.util.*
 @Service
 class UserDetailsServiceImpl : ReactiveUserDetailsService {
 
+    private val log = KotlinLogging.logger {}
 
     @Autowired
     private lateinit var accountRepo: AccountRepo
@@ -75,21 +77,18 @@ class UserDetailsServiceImpl : ReactiveUserDetailsService {
      */
 
     override fun findByUsername(email: String): Mono<UserDetails> {
-        return accountRepo.findByEmail(email)
-                .flatMap { user ->
+        log.info { "$email" }
+        return accountRepo.findByEmail(email).flatMap { user ->
                     user.id?.let {
-                        roleRepo
-                                .findAllByAccountId(it)
-                                .collectList()
+                        roleRepo.findAllByAccountId(it).collectList()
                                 .map { roles ->
                                     user.roles = roles
-                                    user
-                                }
-                    }
-                }.map { account ->
-                    val authorities: MutableList<GrantedAuthority> = account.roles.map {
-                        GrantedAuthorityImpl("ROLE_${it.name}")
-                    }.toMutableList()
+                                    user } } }
+
+                .map { account ->
+                    val authorities: MutableList<GrantedAuthority> =
+                        account.roles.map { GrantedAuthorityImpl("ROLE_${it.name}") }.toMutableList()
+
                     return@map UserDetailsImpl(
                             email = account.email,
                             password = account.password,

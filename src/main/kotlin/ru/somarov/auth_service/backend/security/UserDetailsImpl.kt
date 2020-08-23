@@ -2,7 +2,6 @@ package ru.somarov.auth_service.backend.security
 
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
-import java.util.*
 
 
 /**
