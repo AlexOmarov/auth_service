@@ -1,6 +1,7 @@
 package ru.somarov.auth_service.backend.controller
 
 import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
@@ -18,6 +19,9 @@ import ru.somarov.auth_service.backend.db.repository.RoleRepo
 
 @RestController
 class HomeController {
+
+    @Value("\${user.config}")
+    private lateinit var config: String
 
     @Autowired
     private lateinit var roleRepo: RoleRepo
@@ -37,7 +41,7 @@ class HomeController {
     @Loggable
     @GetMapping("/privileges", produces = [MediaType.APPLICATION_STREAM_JSON_VALUE])
     fun getPrivileges(): Flux<Privilege> {
-        return privilegeRepo.findAll()
+        return Flux.concat(privilegeRepo.findAll(), Flux.just(Privilege(config)))
     }
 
     @Loggable

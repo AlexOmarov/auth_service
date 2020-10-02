@@ -12,6 +12,7 @@ group = "ru.somarov"
 version = "0.0.1-SNAPSHOT"
 java.sourceCompatibility = JavaVersion.VERSION_1_8
 extra["micrometer.version"] = "1.4.2"
+extra["springCloudVersion"] = "Hoxton.SR3"
 
 val developmentOnly: Configuration by configurations.creating
 configurations {
@@ -36,6 +37,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-webflux")
     implementation("org.springframework.boot:spring-boot-starter-jdbc")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation("org.springframework.cloud:spring-cloud-config-client")
     implementation("org.springframework.boot:spring-boot-starter-security")
 
 
@@ -101,6 +103,7 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom("org.springframework.boot.experimental:spring-boot-bom-r2dbc:0.1.0.M3")
+        mavenBom("org.springframework.cloud:spring-cloud-dependencies:${property("springCloudVersion")}")
     }
 }
 

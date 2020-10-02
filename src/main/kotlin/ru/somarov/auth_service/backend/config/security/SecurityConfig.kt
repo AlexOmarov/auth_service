@@ -42,10 +42,11 @@ class SecurityConfig {
         // TODO: enable only post login endpoint for login
         return http
                 .csrf().disable()
-                .httpBasic().disable()
+                //.httpBasic().disable()
                 .authorizeExchange()
+                //.pathMatchers("/login").permitAll()
                 .pathMatchers("/**").authenticated()
-                .pathMatchers("/login").permitAll()
+                .and().formLogin()
                 .and().logout().logoutUrl("/perform_logout")
                 .and().build()
     }

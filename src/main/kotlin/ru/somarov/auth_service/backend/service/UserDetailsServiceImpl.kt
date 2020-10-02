@@ -1,4 +1,4 @@
-package ru.somarov.auth_service.backend.security
+package ru.somarov.auth_service.backend.service
 
 import mu.KotlinLogging
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,6 +12,8 @@ import ru.somarov.auth_service.backend.db.entity.Role
 import ru.somarov.auth_service.backend.db.repository.AccountRepo
 import ru.somarov.auth_service.backend.db.repository.PrivilegeRepo
 import ru.somarov.auth_service.backend.db.repository.RoleRepo
+import ru.somarov.auth_service.backend.security.GrantedAuthorityImpl
+import ru.somarov.auth_service.backend.security.UserDetailsImpl
 import java.util.*
 
 
@@ -77,7 +79,7 @@ class UserDetailsServiceImpl : ReactiveUserDetailsService {
      */
 
     override fun findByUsername(email: String): Mono<UserDetails> {
-        log.info { "$email" }
+        log.info { email }
         return accountRepo.findByEmail(email).flatMap { user ->
                     user.id?.let {
                         roleRepo.findAllByAccountId(it).collectList()
