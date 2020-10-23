@@ -3,7 +3,6 @@ package ru.somarov.auth_service.backend.config.tracing.filter
 import io.opentracing.Span
 import io.opentracing.Tracer
 import mu.KotlinLogging
-import org.springframework.stereotype.Component
 import org.springframework.web.server.ServerWebExchange
 import org.springframework.web.server.WebFilter
 import org.springframework.web.server.WebFilterChain

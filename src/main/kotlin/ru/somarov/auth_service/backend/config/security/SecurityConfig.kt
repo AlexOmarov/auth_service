@@ -1,23 +1,14 @@
 package ru.somarov.auth_service.backend.config.security
 
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
-import org.springframework.security.authentication.ProviderManager
 import org.springframework.security.authentication.ReactiveAuthenticationManager
-import org.springframework.security.authentication.ReactiveAuthenticationManagerAdapter
-import org.springframework.security.authentication.UserDetailsRepositoryReactiveAuthenticationManager
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider
 import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
 import org.springframework.security.config.web.server.ServerHttpSecurity
-import org.springframework.security.core.authority.AuthorityUtils
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.provisioning.InMemoryUserDetailsManager
 import org.springframework.security.web.server.SecurityWebFilterChain
-import ru.somarov.auth_service.backend.service.UserDetailsServiceImpl
-import java.util.*
 
 
 /**
@@ -54,7 +45,7 @@ class SecurityConfig {
         return http
                 .csrf().disable()
                 .httpBasic().disable()
-                .formLogin().and()
+                .formLogin().disable()
                 .authorizeExchange()
                 .pathMatchers("/login").permitAll()
                 .pathMatchers("/actuator/*").permitAll()
@@ -62,10 +53,9 @@ class SecurityConfig {
                 .and().logout().logoutUrl("/perform_logout")
                 .and().build()
     }
-/*
     @Bean
-    fun authManager():ReactiveAuthenticationManager {
-        return UserDetailsRepositoryReactiveAuthenticationManager(UserDetailsServiceImpl())
-    }*/
+    fun authManager(): ReactiveAuthenticationManager {
+        return null
+    }
 
 }
