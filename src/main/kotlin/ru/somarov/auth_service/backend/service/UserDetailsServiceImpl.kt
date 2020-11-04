@@ -28,7 +28,6 @@ import java.util.*
  *  @since 1.0.0
  */
 
-@Service
 class UserDetailsServiceImpl : ReactiveUserDetailsService {
 
     private val log = KotlinLogging.logger {}

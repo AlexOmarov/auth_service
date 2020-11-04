@@ -15,7 +15,7 @@
         <keepAliveDuration>5 minutes</keepAliveDuration>
     </appender>-->
 
-    <root level="info">
+    <root level="debug">
         <!--<appender-ref ref="STASH"/>-->
         <appender-ref ref="STDOUT"/>
     </root>
