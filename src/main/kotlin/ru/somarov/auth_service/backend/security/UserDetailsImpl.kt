@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UserDetails
 
 /**
  * Имплементация {@link UserDetails UserDetails} - класс, несущий в себе информацию о пользователе.
- * При аутентификации экземплярс данными пользователя доступен из контекста.
+ * При аутентификации экземпляр с данными пользователя доступен из контекста.
  *
  *  @author AlexOmarov
  *  @date 24.02.2020

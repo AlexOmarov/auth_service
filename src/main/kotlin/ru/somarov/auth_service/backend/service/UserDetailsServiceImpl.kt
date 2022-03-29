@@ -78,7 +78,9 @@ class UserDetailsServiceImpl : ReactiveUserDetailsService {
      */
 
     override fun findByUsername(email: String): Mono<UserDetails> {
+
         log.info { email }
+
         return accountRepo.findByEmail(email).flatMap { user ->
                     user.id?.let {
                         roleRepo.findAllByAccountId(it).collectList()
