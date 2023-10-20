@@ -1,1 +1,0 @@
-ALTER TABLE auth_service.account ALTER COLUMN id SET DEFAULT uuid_generate_v4();

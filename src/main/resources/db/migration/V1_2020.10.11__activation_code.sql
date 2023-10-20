@@ -1,1 +1,0 @@
-alter table account add column activation_code varchar(255);

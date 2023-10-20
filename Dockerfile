@@ -1,12 +1,12 @@
-FROM openjdk:8-jdk-alpine
-LABEL maintainer="dungeonswdragons@gmail.com"
-RUN addgroup -S dwd && adduser -S dwd -G dwd
-USER dwd:dwd
+FROM bellsoft/liberica-openjdk-alpine:17
+RUN addgroup -S docuser && adduser -S docuser -G docuser
+RUN mkdir -p /var/dumps
+
+USER docuser:docuser
+
 VOLUME /tmp
+ARG DEPENDENCY=stat_buddy_app/build/install
+COPY ${DEPENDENCY}/auth_app-boot/lib /app/lib
+
 EXPOSE 8080
-ARG DEPENDENCY=build/deps
-COPY ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY ${DEPENDENCY}/META-INF /app/META-INF
-COPY ${DEPENDENCY}/BOOT-INF/classes /app
-ENTRYPOINT ["java","-cp","app:app/lib/*","ru/somarov/auth_service/AuthServiceApplicationKt"]
-CMD ["--spring.profiles.active=prod"]
+ENTRYPOINT ["java","-cp","app:app/lib/*", "-XX:+HeapDumpOnOutOfMemoryError", "-XX:HeapDumpPath=/var/dumps", "-jar", "/app/lib/auth_app.jar"]

@@ -1,0 +1,39 @@
+version: '3.8'
+services:
+  auth_service:
+    build: .
+    depends_on: [postgres]
+    environment:
+      - 'spring.profiles.active=prod'
+      - 'DB_HOST=postgres'
+      - 'LOGSTASH_HOST=logstash:5046'
+      - 'ZIPKIN_HOST=http://zipkin:9411/api/v2/spans'
+    ports:
+      - "8080:8080"
+    networks:
+      monitoring:
+        aliases:
+          - app
+  postgres:
+    image: 'postgres:latest'
+    environment:
+      POSTGRES_DB: 'auth_service'
+      POSTGRES_PASSWORD: 'auth_service'
+      POSTGRES_SCHEMA: 'auth_service'
+      POSTGRES_USER: 'auth_service'
+    ports:
+      - '5433:5432'
+    volumes:
+      - pg_data:/var/lib/pgdata
+    networks:
+      monitoring:
+        aliases:
+          - postgres
+
+volumes:
+  pg_data: { }
+
+networks:
+  monitoring:
+    external: true
+    name: 'stat_buddy_service_monitoring'
