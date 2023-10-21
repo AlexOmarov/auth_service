@@ -10,13 +10,12 @@ class UserDetailsImpl(
     private val accountNonLocked: Boolean,
     private val credentialsNonExpired: Boolean,
     private val enabled: Boolean,
-    private val authorities: MutableCollection<out GrantedAuthority>
+    private val authorities: List<GrantedAuthority>
 ) : UserDetails {
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> {
-        return authorities
+        return authorities.toMutableList()
     }
-
 
     override fun isEnabled(): Boolean {
         return enabled

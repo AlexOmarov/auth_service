@@ -4,4 +4,6 @@ import org.springframework.data.repository.kotlin.CoroutineCrudRepository
 import ru.berte.auth.infrastructure.db.entity.Account
 import java.util.*
 
-interface AccountRepo : CoroutineCrudRepository<Account, UUID>
+interface AccountRepo : CoroutineCrudRepository<Account, UUID> {
+    suspend fun findAccountByEmail(email: String): Account?
+}

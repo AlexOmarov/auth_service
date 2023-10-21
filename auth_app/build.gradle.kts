@@ -32,6 +32,7 @@ dependencies {
     implementation(libs.spring.starter.webflux)
     implementation(libs.spring.starter.rsocket)
     implementation(libs.spring.starter.security)
+    implementation(libs.spring.starter.security.auth.server)
     //implementation(libs.spring.starter.security.rsocket)
     implementation(libs.spring.starter.kafka)
     implementation(libs.spring.starter.r2dbc)

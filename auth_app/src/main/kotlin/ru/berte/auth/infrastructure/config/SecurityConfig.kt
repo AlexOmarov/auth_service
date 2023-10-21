@@ -12,6 +12,7 @@ import org.springframework.security.core.Authentication
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
+import org.springframework.security.oauth2.server.authorization.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration
 import org.springframework.security.web.server.SecurityWebFilterChain
 import org.springframework.security.web.server.WebFilterExchange
 import org.springframework.security.web.server.authentication.AuthenticationWebFilter
@@ -33,6 +34,7 @@ class SecurityConfig {
 
     @Bean
     fun securityWebFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
+        OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http)
         return http
             .addFilterAt(authenticationWebFilter(), SecurityWebFiltersOrder.AUTHENTICATION)
             .csrf().disable()
